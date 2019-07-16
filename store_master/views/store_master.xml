@@ -1,0 +1,759 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+        <template id="assets_common" inherit_id="web.assets_common"> 
+            <xpath expr="." position="inside"> <link rel="stylesheet" href="/store_master/static/src/css/common.css"/>
+            </xpath> 
+        </template>
+        <template id="assets_frontend" inherit_id="website.assets_frontend" name="Shop">
+            <xpath expr="." position="inside">
+                <script type="text/javascript" src="/store_master/static/src/js/store_master.js"></script>
+                <script type="text/javascript" src="/store_master/static/src/js/jquery.my.min.js"></script>
+                <link rel="stylesheet" href="/store_master/static/src/css/store.css"/>
+            </xpath>
+        </template>
+        <template id="assets_backend" name="Store assets" inherit_id="web.assets_backend">
+            <xpath expr="." position="inside">
+                <link rel="stylesheet" href="/store_master/static/src/less/dashboard.less"/>
+                <!-- <link rel="stylesheet" href="/store_master/static/src/less/store_dashboard.less"/> -->
+                <link rel="stylesheet" href="/store_master/static/src/css/store.css"/>
+            </xpath>
+        </template>
+
+        <template id="auth_signup_store" inherit_id="auth_signup.fields" name="Store Sign up">
+            <xpath expr="//div[contains(concat(' ',@class,' '),' form-group ') and contains(concat(' ',@class,' '),' field-name ')]" position="after">
+                <div class="checkbox form-group">
+                    <label>
+                        <input type="checkbox" id="is_seller" name="is_seller"/>
+                        <span>Do you want to become a Vendors/Sellers</span>
+                    </label>
+                </div>
+                <div id="term_and_condition" class="form-group hide">
+                    <t t-raw="terms"/>
+                </div>
+            </xpath>
+        </template>
+
+
+        <!-- <template id="homepage" inherit_id="website.homepage">
+            <xpath expr="//div[@id='wrap']" position="inside">
+                <div class="overlay hide" style=" position:fixed;
+                                        z-index:9999;
+                                        width:100%;
+                                        height:100%;
+                                        background-color: black;
+                                        margin-top: -85px;
+                                        background-color:rgba(0,0,0,.75)">
+                    <div class="popup" style="width:320px;
+                                            position:absolute;
+                                            left:50%;
+                                            top:100px;
+                                            margin-left:-150px;">
+
+                        <h4 style="color:white;">We Are Creating Your Store .. </h4>
+                        <img height="200px" width="200px" src="store_master/static/src/img/loding.gif"/><br/>
+                        <span style="color:white;" class="mt128"> Your store will be ready within few seconds ..</span>
+                    </div>
+                    <p></p>
+                </div>
+
+                <div class="modal fade" id="create-store" tabindex="-1" role="dialog" aria-labelledby="create-storeLabel" style="background: transparent url('theme_lamp/static/src/img/model-bg.png') repeat left center;">
+                   <div class="modal-dialog" role="document">
+                        <form name="client" action="/shop/create/store" method="post">
+                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                            <div class="modal-content" style="border:none !important; border-radius:0; box-shadow:none !important; -webkit-box-shadow: none !important; background-color: transparent !important;">
+                                <div class="modal-header" style="color:#F09300;">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span style="font-size:39px;" aria-hidden="true">&amp;times;</span></button>
+                                    <h3 class="modal-title" id="exampleModalLabel"><center>Registration Form</center></h3>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="input-group mt16">
+                                        <span style="height:50px;background: rgba(255, 156, 0, 0.91); color:white;" class="input-group-addon" id="basic-addon1">Store Name &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;</span>
+                                        <input style="height:50px;" id="store_name" type="text"  name="store_name" class="form-control" placeholder="Store name" aria-describedby="basic-addon1" required="True"/>
+                                    </div>
+                                    <div class="form-group mt16">
+                                        <h3 style="color:white" class="subdomain"></h3>
+                                        <h5 style="color:white; font-weight:bold" class="check_store_name hide text-danger">A store with that name already exists. If you are the owner you can <a href='/web/login'>log in here</a></h5>
+                                    </div>
+                                    <div class="input-group mt16">
+                                        <span class="input-group-addon" id="basic-addon5" style="background: rgba(255, 156, 0, 0.91); color:white; height:50px;">Store Category&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;</span>
+                                        <select style="height:50px;" name="category_id" class="form-control" aria-describedby="basic-addon5">
+                                            <option value="fashion">Fashion</option>
+                                            <option value="electronic_computing">Electronics &amp; Computings</option>
+                                            <option value="food_groceries">Food &amp; Groceries</option>
+                                            <option value="interiror_home">Interiror &amp; Home</option>
+                                            <option value="beauty_health">Beauty &amp; Health</option>
+                                            <option value="book">Book</option>
+                                            <option value="services">Service</option>
+                                            <option value="other">Others</option>
+                                        </select>
+                                    </div>
+                                    <div class="input-group mt16">
+                                        <span class="input-group-addon" id="basic-addon2" style="background: rgba(255, 156, 0, 0.91); color:white; height:50px;">Email Address &amp;nbsp;&amp;nbsp;&amp;nbsp;</span>
+                                        <input style="height:50px;" type="email" name="email" class="form-control" id="email" required="True" placeholder="examplae@email.com" aria-describedby="basic-addon2" />
+                                    </div>
+                                    <div class="input-group mt16">
+                                        <span class="input-group-addon" id="basic-addon3" style="background: rgba(255, 156, 0, 0.91); color:white; height:50px;">Admin Username</span>
+                                        <input style="height:50px;" type="text" name="admin_username" class="form-control" id="admin_username" required="True"  aria-describedby="basic-addon3" placeholder="Abhishek"/>
+                                    </div>
+                                    <div class="input-group mt16">
+                                        <span class="input-group-addon" id="basic-addon4" style="background: rgba(255, 156, 0, 0.91); color:white; height:50px;">Password &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;</span>
+                                        <input style="height:50px;" type="password" name="password" class="form-control" id="password" required="True" aria-describedby="basic-addon4"/>
+                                    </div>
+                                    <div class="input-group mt16">
+                                        <span class="input-group-addon" id="basic-addon5" style="background: rgba(255, 156, 0, 0.91); color:white; height:50px;">Service Type &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;</span>
+                                        <select style="height:50px;" name="service_type" class="form-control" aria-describedby="basic-addon5">
+                                            <option value="ecommerce">Only Ecommerce</option>
+                                            <option value="erp">Only ERP</option>
+                                            <option value="erp_ecommerce">ERP + Ecommerce</option>
+                                        </select>
+                                    </div>
+                                    <div class="input-group mt16">
+                                        <span class="input-group-addon" id="basic-addon6" style="background: rgba(255, 156, 0, 0.91); color:white; height:50px;">Billing Cycle &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;</span>
+                                        <select style="height:50px;" aria-describedby="basic-addon5" name="exp_period" class="form-control">
+                                            <option value="free_trail">Free Trail</option>
+                                            <option value="monthly">1 Month</option>
+                                            <option value="quaterly">3 Months</option>
+                                            <option value="half-yearly">6 Months</option>
+                                            <option value="yearly">12 Months</option>
+                                        </select>
+                                    </div>
+                                    <div class="input-group mt16">
+                                        <input type="checkbox" name="term" id="term"/>
+                                        <span class="ml8" style="color:white;">I have read and I accept <a href="#">SMERP</a> term and codition</span>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <a style="width:100%; height:50px; border-radius:6px; line-height:35px; background-color:rgba(255, 156, 0, 0.67);font-size:19px; " class="btn btn-primary create_store">Create Store</a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-2"/>
+                    <div class="col-xs-8 text-center">
+                        <h1><strong>An ecommerce platform made for you</strong></h1>
+                        <h4 class="mt32" style="color:gray;">Whether you sell online, on social media, in store, or out of the trunk of your car, oyacharge has you covered.</h4>
+                        <div class="mt64 registration">
+                            <div class="input-group">
+                                <input type="text" class="form-control user_email" placeholder="Enter Your Email Address"/>
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#create-store"> Get Started
+                                    </button>
+
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-2"/>
+                </div>
+            </xpath>
+        </template>
+ -->
+        <template id="store_create_success" name="Store Create Feedback">
+            <t t-call="website.layout">
+                <div class="container">
+                    <div class="row store_created">
+                        <div class="col-md-12">
+                            <div class="text-center alert alert-success mt16" style="background:rgba(255,255,255,.84);border-left-width:5px;">
+                                <h3>Thanks for registering store with us. Your store has been created successfully.</h3>
+                                <center>
+                                    <a id="redirect_to_store" t-attf-href="http://#{store.db_name}:8069/web/login?token=#{token}&amp;login=#{login}" class="btn btn-primary btn-sm"><span class="fa fa-arrow-circle-right mr4"/>Store Backend</a>
+                                    <a id="redirect_to_store" t-attf-href="http://#{store.db_name}:8069/web/login/?token=#{token}&amp;login=#{login}&amp;redirect=/" class="btn btn-danger btn-sm ml16"><span class="fa fa-arrow-circle-right mr4"/>Store Front-end</a>
+                                    <!--<a id="redirect_to_store" t-attf-href="http://#{store.db_name}:8069/web" class="btn btn-primary btn-sm"><span class="fa fa-arrow-circle-right mr4"/>Store Backend</a>
+                                    <a id="redirect_to_store" t-attf-href="http://#{store.db_name}:8069" class="btn btn-danger btn-sm ml16"><span class="fa fa-arrow-circle-right mr4"/>Store Front-end</a>
+                                    --> 
+                                </center>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </template>
+        <template id="store_create_failure" name="Store Create Feedback">
+            <t t-call="website.layout">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h3>Entered Store name is already exist, please create store with other name</h3>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </template>
+
+
+    <template id="store_contract" name="Store Contract">
+        <t t-call="website.layout">
+            <div id="wrap">
+                <div id="store_content" class="container mb64">
+                    <div class="row" t-if="user.partner_id == store.partner_id">
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb mt8 mb0">
+                                <li><a href="/my/home">My Store</a></li>
+                                <li>Contract <span t-esc="store.name"/></li>
+                            </ol>
+                        </div>
+                    </div>
+                    <t t-set="sale_order" t-value="last_orders.filtered(lambda s: s.state in ('draft', 'sent'))"/>
+                    <div class="oe_structure"/>
+                    <div class="row oe_website_contract mt32">
+                        <div class="col-md-12" t-if="is_store_create">
+                            <div class="alert alert-warning alert-dismissable" style="background:rgba(255,255,255,.84);border-left-width:5px;">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&amp;times;</button>
+                                    <h3>Thanks for registering store with us. Your store has been created successfully</h3>
+                                    <p>At this moment your store is not active , to make it active please do a payment, once we received your payment , your store will be activated </p>
+                                    <p>
+                                        <h3>Below is your plan details</h3>
+                                    </p>
+
+                                    <a class="btn btn-primary" t-attf-href="/my/orders/#{sale_order.id}"><span>Paynow</span></a>
+                            </div>
+                        </div>
+                        <div class="col-md-8 alert alert-info alert-dismissable mb8" style="background:rgba(255,255,255,.84);border-left-width:5px;margin-bottom:0px;" t-if="store.exp_period == 'free_trail'">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&amp;times;</button>
+                                <b>
+                                    Your Current Plan is <i>FREE Trial</i>, which will expire on <i><t t-esc="store.exp_date"/></i>
+                                    <p>Pick a plan to use when your free trial ends..</p>
+                                </b>
+                                <a class="mt4 btn btn-primary btn-sm" t-att-href="'/my/store/contract/change/'+str(store.id)+'/'+str(store.client_id)"> <i class="fa fa-fw fa-arrow-circle-right"></i>Select Plan</a>
+                        </div>
+                        <div class="col-md-offset-4" t-if="store.exp_period == 'free_trail'"/>
+                        <div class="col-md-8" t-if="tx">
+                            <div style="background:rgba(255,255,255,.84);border-left-width:5px;" class="alert alert-warning alert-dismissable" t-if="tx.state == 'done'">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&amp;times;</button>
+                                    <b>Your payment has been received, thank you for your trust.</b>
+                                <span t-if='tx.acquirer_id.post_msg' t-raw="tx.acquirer_id.post_msg"/>
+                            </div>
+                            <div style="background:rgba(255,255,255,.84);border-left-width:5px;" class="alert alert-warning alert-dismissable" t-if="tx.state == 'pending'">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&amp;times;</button>
+                                <b>Your transaction is waiting confirmation.</b>
+                                <span t-if='tx.acquirer_id.post_msg' t-raw="tx.acquirer_id.post_msg"/>
+                            </div>
+                        </div>
+                        <div class="col-md-offset-4" t-if="tx"/>
+                        <div class="col-md-8 ezeselling_back mb8" style="padding:15px;" t-if="tx and tx.sale_order_id">
+                            <div>
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&amp;times;</button>
+                                <h3 class="mb16"><b>Transaction Details</b></h3>
+                                <table class="table">
+                                    <tr>
+                                        <th>Order Reference</th>
+                                        <td><t t-esc="tx.sale_order_id.name"/></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Total amount paid</th>
+                                        <td><t t-esc="tx.sale_order_id.amount_total"/></td>
+                                    </tr>
+
+                                    <tr>
+                                        <th>Payment method</th>
+                                        <td><span class="badge" style="color: #666666;"><t t-esc="tx.sale_order_id.payment_acquirer_id.name"/></span></td>
+                                    </tr>
+
+                                    <tr>
+                                        <th>Transaction Reference</th>
+                                        <td><t t-esc="tx.reference"/></td>
+                                    </tr>
+
+                                    <tr>
+                                        <th>Transaction status</th>
+                                        <td><span class="badge" style="color: #666666;" t-field="tx.state"/></td>
+                                    </tr>
+                                </table>
+
+                            </div>
+                        </div>
+                        <div class="col-md-offset-4" t-if="tx and tx.sale_order_id"/>
+                        <div class="col-md-8 alert alert-info alert-dismissable" style="background:rgba(255,255,255,.84);border-left-width:5px;" t-if="store.need_payment">
+                            <h3 class="need_payment">Please Pay your bill at payment section to extend your store validity.</h3>
+                            <a class="btn btn-primary" t-attf-href="/my/orders/#{sale_order.id}"><span>Paynow</span></a>
+                        </div>
+                        <div class="col-md-3 col-md-offset-1" style="padding:20px;" t-if="not store.need_payment and store.exp_period != 'free_trail' and tx and tx.sale_order_id">
+                            <span class="fa-check-square-o fa fa-3x text-success"/> <span class="ml4 small badge" style="color: #666666;margin-top: -22px;">Payment Received</span>
+                        </div>
+                        <div class="col-md-3 col-md-offset-1" style="padding:20px;" t-if="store.need_payment and store.exp_period != 'free_trail'">
+                            <span class="fa-credit-card fa fa-3x text-danger"/> <span class="ml4 small badge" style="color: #666666;margin-top: -22px;">Payment not Received yet</span>
+                        </div>
+
+                        <div class="col-md-8 ezeselling_back">
+                            <h3 class="page-header">Store Contract for <b style="text-transform: uppercase;" t-field="store.name"/>
+                                <small class="pull-right">
+                                    <t t-if="store.state == 'new'">
+                                        <span class="label label-danger"><i class="fa fa-fw fa-check"/> New</span>
+                                    </t>
+                                    <t t-if="store.state == 'in_progress'">
+                                        <span class="label label-success"><i class="fa fa-fw fa-check"/> In Progress</span>
+                                    </t>
+                                    <t t-if="store.state == 'renew'">
+                                        <span class="label label-warning"><i class="fa fa-fw fa-refresh"/> To Renew</span>
+                                    </t>
+                                    <t t-if="store.state == 'close'">
+                                        <span class="label label-default"><i class="fa fa-fw fa-remove"/> Closed</span>
+                                    </t>
+                                </small>
+                                <a class="btn btn-info btn-sm css_editable_mode_hidden hidden-print" t-att-href="'/web#model=%s&amp;id=%s&amp;view_type=form' % (store._name, store.id)" groups="base.group_website_publisher" t-ignore="true">View Store Contract</a>
+                            </h3>
+                            <hr/>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="alert alert-info" style="background:rgba(255,255,255,.84);border-left-width:5px;">
+                                        <div>
+                                            <h4 class="pull-left"><b>Store address details</b></h4>
+                                            <div class="clearfix"/>
+                                        </div>
+                                        <div>
+                                            <div t-field="store.partner_id" t-field-options='{
+                                                "widget": "contact",
+                                                "fields": [
+                                                    "name",
+                                                    "address",
+                                                    "phone",
+                                                    "email"]}'/>
+                                            <div t-if="user.partner_id == store.partner_id">
+                                                <a class="small" t-attf-href="/my/account?redirect=/my/contract/#{store.id}/#{store.client_id}">(Wrong address?)</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="alert alert-info" style="background:rgba(255,255,255,.84);border-left-width:5px;">
+                                        <div>
+                                            <h4 class="pull-left"><b t-field="store.name" /></h4>
+                                            <span class="label label-info pull-right">Your Plan</span>
+                                            <div class="clearfix"/>
+                                        </div>
+                                        <div>
+                                            <div class="mt4">Current plan: <b><span t-field="store.exp_period"/></b></div>
+                                            <div class="mt4">Start date: <span t-field="store.start_date"/></div>
+                                            <div class="mt4" t-if="store.exp_date">Valid until: <b><span t-field="store.exp_date"/></b></div>
+                                            <!-- <div class="mt16">Billing:
+                                                Every
+                                                month(s)
+                                            </div>
+                                            <div class="mt16">Next invoice: <span t-field="store.exp_date"/></div> -->
+                                            <a class="mt16 btn btn-primary btn-sm" t-att-href="'/my/store/contract/change/'+str(store.id)+'/'+str(store.client_id)">Change plan</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="alert alert-info" style="background:rgba(255,255,255,.84);border-left-width:5px;">
+                                        <h4 class="pull-left"><b>Store details</b></h4>
+                                        <div class="clearfix"/>
+                                            <!-- <div class="col-xs-8">
+                                                <span>Number Of Users : </span>
+                                            </div>
+                                            <div class="col-xs-2">
+                                                <b class="badge" style="color:#666666;" t-field="store.no_of_users"/>
+                                            </div>
+                                            <div class="col-xs-8 mt16">
+                                                <span>Number Of Products : </span> 
+                                            </div>
+                                            <div class="col-xs-2 mt16">
+                                                <b class="badge" style="color:#666666;" t-field="store.no_of_products"/>
+                                            </div>
+                                            <div class="col-xs-8 mt16">
+                                                <span>Store Category : </span> 
+                                            </div>
+                                            <div class="col-xs-2 mt16">
+                                                <b class="badge" style="color:#666666;" t-field="store.category_id"/>
+                                            </div> -->
+                                            <div class="col-xs-8 mt16">
+                                                <span>Store Size : </span>
+                                            </div>
+                                            <div class="col-xs-2 mt16">
+                                                 <b class="badge" style="color:#666666;" t-field="store.database_size"/>
+                                            </div>
+                                            <div class=" mt16">
+                                                <a class="fa fa-eye btn btn-primary btn-xs">View your payment histrory</a>
+                                            </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="oe_structure"/>
+                            <div class="alert alert-info" style="background:rgba(255,255,255,.84);border-left-width:5px;">
+                                <div>
+                                    <h4 class="pull-left"><b>Your current plan</b></h4>
+                                    <div class="clearfix"/>
+                                </div>
+                                <div>
+                                    <table class="table" id="wc-account-table">
+                                        <thead>
+                                            <tr class="active">
+                                                <th style="background-color:rgba(51, 122, 183, 0.38);" width="40%">Description</th>
+                                                <th style="background-color:rgba(51, 122, 183, 0.38);">Quantity</th>
+                                                <th style="background-color:rgba(51, 122, 183, 0.38);">Unit Price</th>
+                                                <th style="background-color:rgba(51, 122, 183, 0.38);">Subtotal</th>
+                                            </tr>
+                                        </thead>
+                                        <tfoot>
+                                            <tr>
+                                                <td></td>
+                                                <td></td>
+                                                <td>
+                                                    <p class="mb0"><b>Total:</b></p>
+                                                </td>
+                                                <td>
+                                                    <p>
+                                                        <b><span t-field="store.recurring_total" t-options='{"widget": "monetary", "display_currency": store.currency_id}'/></b>
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                        </tfoot>
+                                        <tbody>
+                                            <tr t-foreach="store.subscription_line_ids" t-as="line">
+                                                <td class="line-description">
+                                                    <span t-field="line.name"/>
+                                                </td>
+                                                <td>
+                                                    <span t-field="line.quantity"/> <span t-field="line.uom_id" data-oe-readonly="1"/>
+                                                </td>
+                                                <td t-if="not line.discount">
+                                                    <span t-esc="line.price_unit" t-options='{"widget": "monetary", "display_currency": store.currency_id}'/>
+                                                </td>
+                                                <td t-if="line.discount">
+                                                    <span style="text-decoration:line-through;" t-field="line.price_unit" t-options='{"widget": "monetary", "display_currency": store.currency_id}'/><br/>
+                                                    <div>
+                                                        <span t-esc="line.price_unit*(100.0-line.discount)/100.0" t-options='{"widget": "monetary", "display_currency": store.currency_id}'/>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <span t-esc="line.price_subtotal" t-options='{"widget": "monetary", "display_currency": store.currency_id}'/>
+                                                </td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <!--t t-if="store.state == 'renew' or store.exp_period != 'free_trail'"-->
+                            <!-- <t t-if="store.state == 'renew' or store.exp_period == 'free_trail' or store.need_payment">
+                                <t t-if="store.recurring_total > 0">
+                                    <t t-call="store_master.store_payment_method"/>
+                                </t>
+                            </t> -->
+                            <t t-if="store.description">
+                                <div class="oe_structure"/>
+                                <h3 class="page-header"><b>Terms and conditions</b></h3>
+                                <div class="alert alert-warning ezeselling_back"  t-field="store.description"/>
+                            </t>
+                        </div>
+                        <div class="col-md-3 col-md-offset-1">
+                            <div class="oe_structure"/>
+                            <div>
+                                <h3 class="ezeselling_back" style="text-align:center;padding:5px;">
+                                    <a class="btn btn-primary btn-sm" t-attf-href="http://#{store.db_name}.ezeselling.com"><span class="fa fa-eye mr8"/> Visit Your Store</a> 
+                                    <a class="btn btn-primary btn-sm" t-att-href="'/report/pdf/store_master.report_store/'+str(store.id)" target="_blank"><span class="fa fa-print mr8"/> Print Contract</a>
+                                </h3>
+                            </div>
+
+                            <div class="alert alert-info" style="background:rgba(255,255,255,.84);border-left-width:5px;" t-if="store.manager_id">
+                                <div>
+                                    <h4 class="pull-left"><b>Sales Representative</b></h4>
+                                    <div class="clearfix"/>
+                                </div>
+                                <div>
+                                    <a name="wc-your-contact"/>
+                                    <div t-field="store.manager_id" t-field-options='{
+                                        "widget": "contact",
+                                        "fields": [
+                                            "name",
+                                            "phone",
+                                            "email"]}'/>
+                                </div>
+                            </div>
+                            <div class="alert alert-info" style="background:rgba(255,255,255,.84);border-left-width:5px;">
+                                <div>
+                                    <h4 class="pull-left"><b>Last Orders details</b></h4>
+                                    <div class="clearfix"/>
+                                </div>
+                                <div>
+                                    <t t-foreach="last_orders" t-as="order">
+                                        <div class="mt16"> <a t-attf-href="/my/orders/#{order.id}"><span t-field="order.name"/></a> <span class=" pull-right ml16 label label-default" t-field="order.state"/></div>
+                                    </t>
+                                </div>
+                            </div>
+                            
+                            
+                        </div>
+                        
+                        
+
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="store_payment_method">
+        <div class="oe_structure"/>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="alert alert-info" style="background: rgba(255,255,255,.84);
+    border-left-width: 5px;
+    border-right-style: dashed;
+    border-top-style: dashed;
+    border-bottom-style: dashed;">
+                    <h4><strong>Payment Method</strong></h4>
+                    <div >
+                        <input type="hidden" name="order_id" t-att-value="order_id"/>
+                        <div t-if="acquirers" id="payment_method" class="row text-left">
+                            <div class="col-md-6">
+                                <ul class="list-unstyled">
+                                    <li t-foreach="acquirers or []" t-as="acquirer">
+                                        <label t-if="buttons.get(acquirer.id)">
+                                            <input t-att-value="acquirer.id" type="radio" name="acquirer" t-att-checked="acquirers[0] == acquirer"/>
+                                            <img class="media-object" style="width: 60px; display: inline-block;"
+                                            t-att-title="acquirer.name"
+                                            t-att-src="'/payment_%s/static/src/img/%s_icon.png' % (acquirer.provider, acquirer.provider)"/>
+                                            <span t-field="acquirer.name"/>
+                                        </label>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-md-4 mt32">
+                                <t t-foreach="acquirers or []" t-as="acquirer">
+                                    <div t-att-data-id="acquirer.id" class="o_quote_acquirer_button pull-right">
+                                        <div t-raw="buttons.get(acquirer.id)"/>
+                                        <div class="mt16" t-field="acquirer.pre_msg"/>
+                                    </div>
+                                </t>
+                                <button type="button" class="btn btn-link" data-dismiss="modal" style="padding: 0">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template id="store_template" name="Change your plan">
+        <t t-call="website.layout">
+            <div id="wrap">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb mt8">
+                                <li t-if="user.partner_id == store.partner_id"><a href="/my/home">My Account</a></li>
+                                <li><a t-att-href="'/my/store/contract/'+str(store.id)+'/'+str(store.client_id)">Contract <span t-esc="store.name"/></a></li>
+                                <li>Change Your Plan</li>
+                            </ol>
+                        </div>
+                    </div>
+                    <div class=" mt16 alert alert-info" style="background:rgba(255,255,255,.84);border-left-width:5px;">
+                        <h3><b>Change Your Plan</b></h3>
+                        <span>Your options will be carried to the new plan if they are available.</span>
+                    </div>
+                    <div class="row oe_website_contract">
+                        <t t-set="template" t-value="store.template_id"/>
+                        <t t-call="store_master.store_template_body"/>
+
+                        <t t-foreach="store_templates" t-as="template">
+                            <t t-call="store_master.store_template_body"/>
+                        </t>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="store_template_body">
+        <div class="col-md-4">
+            <div t-attf-class="panel panel-default #{'current_plan_panel' if (store.template_id.id == template.id) else 'default_plan_panel'}">
+                <div class="panel-heading" style="border-color: white;border-bottom-width:3px;">
+                    <t t-set="discount" t-value="template.subscription_line_ids and template.subscription_line_ids[0].discount or 0"/>
+                    
+                    <div class="ribbon-wrapper" t-if="discount">
+                        <div class="ribbon btn btn-danger"><t t-esc="discount"/>% OFF</div>
+                    </div>
+                    <h4 class="pull-left"><b t-esc="template.name" /> </h4>
+                    <br/>
+                    <div class="text-center mt16" style="font-size:-webkit-xxx-large;">
+                        <t t-set="plan" t-value="'Free'"/>
+                        <t t-if="template.exp_period == 'monthly'">
+                            <t t-set="plan" t-value="'Month'"/>
+                        </t>
+                        <t t-if="template.exp_period == 'yearly'">
+                            <t t-set="plan" t-value="'Year'"/>
+                        </t>
+                        <span><b><span t-field="template.total_amount" t-field-options='{"widget": "monetary", "display_currency": "template.currency_id"}'/></b></span><span style="font-size:20px;">/<t t-esc="plan"/></span>
+                    </div>
+                    <div class="clearfix"/>
+                </div>
+                <div class="panel-body">
+                    <p>
+                        Billing Period: <span t-field="template.exp_period"/>
+                    </p>
+                </div>
+                <table class="table wc-template-panel-table">
+                    <tbody>
+                        <tr>
+                            <td width="70%"><h4>Basic Plan</h4></td>
+                            <td/>
+                        </tr>
+                        <tr t-foreach="template.subscription_line_ids" t-as="line" class="line-description">
+                            <td><strong><span t-field="line.product_id"/></strong><br/><span class="small" t-esc="line.name"/></td>
+                            <td><span t-field="line.price_unit" t-field-options='{"widget": "monetary", "display_currency": "template.currency_id"}'/></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="panel-footer clearfix">
+                    <button type="button" t-if="store.template_id.id == template.id" class="btn btn-standard btn-sm" style="
+                                            width:94%;color: black;
+                                            background: rgba(254, 217, 38, 0.59);
+                                            font-weight: 900;" 
+                    disabled="True">Your Current Selected Plan</button>
+                    <form method="post" t-if="template.allow_online and store.template_id.id != template.id">
+                        <input type="hidden" name="new_template_id" t-att-value="template.id"/>
+                        <input type="hidden" name="client_id" t-att-value="store.client_id"/>
+                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" t-att-data-target="'#contract_confirm_'+str(template.id)" style="width:94%;background-color:rgba(255, 86, 80, 0.84);font-weight: 900;"><i class="fa fa-fw fa-arrow-circle-right"></i> Choose this plan</button>
+                        <div class="modal fade" t-att-id="'contract_confirm_'+str(template.id)">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title"><b>Change Your Contract</b></h4>
+                                    </div>
+                                    <div class="modal-body" style="background:#E9EBEE;">
+                                        <div class=" mt16 alert alert-info" style="background:rgba(255,255,255,.84); border-left-width:5px;">
+                                            <p><b>Please make sure that you have selected the correct plan:</b></p>
+                                            <ul class="mt8">
+                                                <li><b>Plan: </b><span t-esc="template.name"/></li>
+                                                <li>
+                                                    <b>Billing Period: </b><span t-field="template.exp_period"/>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class=" mt16 alert alert-info" style="background:rgba(255,255,255,.84); border-left-width:5px;">
+
+                                            <p>You will be charged for the <b><span t-field="template.exp_period"/></b> Advanced Ezeselling plan of <b><t t-esc="template.subscription_line_ids[0].price_unit"/> USD on <t t-esc="store.exp_date"/>.</b> This will cover your Ezeselling subscription from: <b><t t-esc="store.exp_date"/> to <t t-esc="template.get_expiry_period(store.exp_date)"/></b> </p>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary contract-submit">Confirm</button>
+                                    </div>
+                                </div><!-- /.modal-content -->
+                            </div><!-- /.modal-dialog -->
+                        </div><!-- /.modal -->
+                    </form>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!-- Chatter templates -->
+    <template id="chatter_change_contract">
+        <div>&amp;bull; <b>Template</b>:<t t-esc="msg_before[0]"/> &amp;rarr; <t t-esc="msg_after[0]"/></div>
+        <div>&amp;bull; <b>Recurring Price</b>:<t t-esc="msg_before[1]"/> &amp;rarr; <t t-esc="msg_after[1]"/></div>
+        <div>&amp;bull; <b>Invoicing Period</b>:<t t-esc="msg_before[2]"/> &amp;rarr; <t t-esc="msg_after[2]"/></div>
+    </template>
+
+    <template id="chatter_add_option">
+        <div>Option added by customer</div>
+        <div>&amp;bull; <b>Option</b>: <t t-esc="new_option.product_id.name_template"/></div>
+        <div>&amp;bull; <b>Price</b>: <t t-esc="new_option.price_unit"/></div>
+        <div>&amp;bull; <b>Sale Order</b>: None</div>
+    </template>
+
+    <template id="chatter_remove_option">
+        <div>Option removed by customer</div>
+        <div>&amp;bull; <b>Option</b>: <t t-esc="remove_option.product_id.name_template"/></div>
+    </template>
+
+    <template id="chatter_add_paid_option">
+        <div>New Option added by Sale Order confirmation</div>
+            <t t-foreach="lines" t-as="line">
+                <div>&amp;bull; <b>Option</b>: <t t-esc="line.product_id.name_template"/></div>
+                <div>&amp;bull; <b>Sale Order</b>: <t t-esc="line.order_id.name"/></div>
+                <div>&amp;bull; <b>Recurring Price</b>: <t t-esc="line.price_unit"/></div>
+                <div>&amp;bull; <b>Discount (partial invoicing period)</b>: <t t-esc="line.discount"/></div>
+                <div>&amp;bull; <b>Discounted Price</b>: <t t-esc="line.price_subtotal"/></div>
+                <br/>
+            </t>
+    </template>
+
+    <template id="store_domain_not_found1" name="Store Domain Not Found">
+        <t t-call="website.layout">
+            <div class="container">
+                <div class="row store_created">
+                    <div class="col-md-12">
+                        <div class="text-center alert alert-info mt16" style="background:rgba(255,255,255,.84);border-left-width:5px;">
+                            <h1><b>Domain You Entered Does'nt Exist</b></h1>
+                            <h4>You can create your store with This domain by clicking on below button</h4>
+
+                            <button class="btn btn-primary mt8" data-toggle="modal" data-target="#create-store">Register Your Store</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="chatter" name="Allow Comments &amp; History" customize_show="True" inherit_id="store_master.store_contract">
+      <xpath expr="//div[@id='store_content']" position="inside">
+            <div id="sale_order_communication" class="mt-4">
+                <h2>Communication</h2>
+                <t t-call="portal.message_thread">
+                    <t t-set="object" t-value="store"/>
+                </t>
+            </div>
+      </xpath>
+     
+  </template>
+
+    <template id="portal_my_store" name="My Stores">
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True"/>
+
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">Stores</t>
+            </t>
+            <t t-if="not stores">
+                <p>There are currently no store for your account.</p>
+            </t>
+            <t t-if="stores" t-call="portal.portal_table">
+                <thead>
+                    <tr class="active">
+                        <th>Store #</th>
+                        <th class="text-right">Store Start Date</th>
+                        <th class="text-right">Valid Until</th>
+                        <th class="text-center"/>
+                        <th class="text-right">Total</th>
+                    </tr>
+                </thead>
+                <t t-foreach="stores" t-as="store">
+                    <tr>
+                        <td><a t-attf-href="/my/store/contract/#{store.id}/#{store.client_id}"><t t-esc="store.name"/></a></td>
+                        <td class="text-right"><span t-field="store.start_date"/></td>
+                        <td class="text-right"><span t-field="store.exp_date"/></td>
+                        <td class="text-center">
+                            <span t-field="store.state"/>
+                        </td>
+                        <td class="text-right">
+                            <span t-field="store.recurring_total"/>
+                        </td>
+                    </tr>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <template id="portal_my_home_store" name="Portal My Home : store entries" inherit_id="portal.portal_my_home" priority="20">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+            <t t-if="store_count" t-call="portal.portal_docs_entry">
+                <t t-set="title">Retail Stores</t>
+                <t t-set="url" t-value="'/my/stores'"/>
+                <t t-set="count" t-value="store_count"/>
+            </t>
+        </xpath>
+    </template>
+
+   <!-- <template id="portal_layout" inherit_id="portal.portal_layout">
+        <xpath expr="//div[contains(concat(' ',@class,' '),' navbar ')]" position="attributes">
+            <attribute name="style">background:#B3B3B3;z-index: 0;</attribute>
+        </xpath>
+    </template> -->
+
+    </data>
+</odoo>

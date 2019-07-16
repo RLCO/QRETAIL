@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <template id="assets" inherit_id="web.assets_backend">
+            <xpath expr="." position="inside">
+                <script src="/web/static/lib/nvd3/d3.v3.js"></script>
+                <script src="/web/static/lib/nvd3/nv.d3.js"></script>
+                <link href="/web/static/lib/nvd3/nv.d3.css" rel="stylesheet" type="text/css"></link>
+                <link href="/pos_dashboard/static/src/css/pos_dashboard.css" rel="stylesheet"/>
+                <script type="text/javascript" src="/pos_dashboard/static/src/js/pos_dashboard.js"></script>
+            </xpath>
+        </template>
+
+    </data>
+</openerp>

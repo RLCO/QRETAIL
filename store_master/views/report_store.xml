@@ -1,0 +1,364 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<data>
+<template id="report_store_document">
+    <t t-call="report.external_layout">
+        <t t-set="o" t-value="o.with_context({'lang':o.partner_id.lang}).sudo()" />
+        <div class="page">
+            <div class="oe_structure"/>
+            <div class="row">
+                <div name="invoice_address" class="col-xs-5 alert alert-info" style="border-left-width: 6px; border-radius: 0; background-color:rgba(217, 237, 247, 0.05)">
+                    <address t-field="o.partner_id"
+                        t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": True}' />
+                    <span t-if="o.partner_id.vat">TIN: <span t-field="o.partner_id.vat"/></span>
+                    <span t-if="o.partner_id.vat">Store Ref. #: <span t-field="o.reference"/></span>
+                </div>
+                <div name="invoice_address" class="col-xs-offset-2 col-xs-5" style="border-bottom: 5px solid; text-transform:uppercase; font-size:30px;">
+                    <h2><p style="font-weight:900;" t-field="o.state"/></h2>
+                </div>
+            </div>
+
+
+            <div class="row mt32 mb32" id="informations ">
+                <div class="col-xs-5 alert alert-info" style="border-left-width: 6px; border-radius: 0; background-color:rgba(217, 237, 247, 0.05)">
+                    <table width="100%">
+                        <tr>
+                            <td style="padding-bottom: 0.8em;"><b>Store Name</b></td>
+                            <td style="padding-bottom: 0.8em;"><span class="label label-default" t-field="o.name"/></td>
+                        </tr>
+                        <tr>
+                            <td style="padding-bottom: 0.8em;"><b>Expire Date</b></td>
+                            <td style="padding-bottom: 0.8em;"><span t-field="o.exp_date"/></td>
+                        </tr>
+                        <tr>
+                            <td style="padding-bottom: 0.8em;"><b>Expire Period</b></td>
+                            <td style="padding-bottom: 0.8em;"><span class="label label-default" t-field="o.exp_period"/></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="col-xs-offset-2 col-xs-5 alert alert-info" style="border-left-width: 6px; border-radius: 0; background-color:rgba(217, 237, 247, 0.05)">
+                    <table width="100%">
+                        <tr>
+                            <td style="padding-bottom: 0.8em;"><b>Database Name</b></td>
+                            <td style="padding-bottom: 0.8em;"><span class="label label-default" t-field="o.db_name"/></td>
+                        </tr>
+                        <tr>
+                            <td style="padding-bottom: 0.8em;"><b>Start Date</b></td>
+                            <td style="padding-bottom: 0.8em;"><span t-field="o.start_date"/></td>
+                        </tr>
+                        <tr>
+                            <td style="padding-bottom: 0.8em;"><b>Service</b></td>
+                            <td style="padding-bottom: 0.8em;"><span class="label label-default" t-field="o.service_id"/></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="row mt32 mb32" id="informations ">
+                <table class="table table-striped" style="border: 1px solid;">
+                    <thead style="border-bottom: 4px solid;">
+                        <tr>
+                            <th>Description</th>
+                            <th class="text-right">Product</th>
+                            <th class="text-right">Quantity</th>
+                            <th class="text-right">Unit Price</th>
+                            <th class="text-right">Disc.(%)</th>
+                            <th class="text-right">Subtotal</th>
+                        </tr>
+                    </thead>
+                    <tbody class="sale_tbody">
+                        <tr t-foreach="o.subscription_line_ids" t-as="l">
+                            <td><span t-field="l.name"/></td>
+                            <td><span t-field="l.product_id"/></td>
+                            <td class="text-right">
+                                <span t-field="l.quantity"/>
+                            </td>
+                            <td class="text-right">
+                                <span t-field="l.price_unit"/>
+                            </td>
+                            <td class="text-right">
+                                <span t-field="l.discount"/>
+                            </td>
+                            <td class="text-right">
+                                <span t-field="l.price_subtotal" 
+                                    t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Is there a discount on at least one line? -->
+
+            
+
+            <div class="row">
+                <div class="col-xs-4 pull-right">
+                    <table class="table table-condensed">
+                        <tr class="border-black">
+                            <td><strong>Total</strong></td>
+                            <td class="text-right">
+                                 <span t-field="o.recurring_total" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="row mt64" id="informations ">
+                <div class="panel panel-default">
+                    <div class="panel-heading" style="background:#f5f5f5 !important;">
+                        <b>EZESELLING SOFTWARE, INC.  END-USER LICENSE AGREEMENT FOR SOFTWARE AS A SERVICE</b>
+                    </div>
+                    <div class="panel-body" style="text-align: justify;text-justify: inter-word;">
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <span class="fa fa-tag"/> <b>IMPORTANT-READ CAREFULLY</b>
+                                <p class="small">
+                                    This End-User License Agreement for Software as a Service ("EULA SaaS"),together with the Proposal &amp; Sales Agreement issued to you (collectively, the "Agreement") is a legal agreement between you (either an individual or a single entity) (the “Customer” or “you”) and EZESELLING Software, Incorporated ("EZESELLING") for the EZESELLING software as a service product identified in the Proposal &amp; Sales Agreement which may include associated software components, media, printed materials, and "online" or electronic documentation ("SAAS PRODUCT"). By using the SAAS PRODUCT, you agree to be bound by the terms of this Agreement. If you do not agree to the terms of this Agreement, do not use the SAAS PRODUCT.
+
+                                </p>
+                                <p class="small">
+                                    The SAAS PRODUCT is protected by copyright laws and international copyright treaties, as well as other intellectual property laws and treaties. The SAAS PRODUCT is licensed, not sold
+                                </p>
+
+                                <span class="fa fa-cloud"/> <b>USE OF SAAS PRODUCT</b>
+                                <p class="small">
+                                    <span class="fa fa-rocket"> <i><b>1.1 Right to Use:</b></i></span>
+                                    Subject to the terms and conditions of the Agreement and EZESELLING then current SEZESELLING Service Level Agreement, a copy of which is available for review online at http://www.ezeselling.com.ng/SaaS/  (which EZESELLING may update from time to time upon no notice to Customer), EZESELLING shall provide the SAAS PRODUCT to Customer during the Service Term. The rights to access and use the SAAS PRODUCT granted under this Agreement is personal to Customer and may not be leased, assigned, or sublicensed including, but not limited to, any attempted transfer of the SAAS PRODUCT to a successor in interest of your business. The license granted hereunder is solely for the benefit of Customer as named in the Proposal Sales Agreement.
+                                </p>
+
+                                <p class="small">
+                                    <span class="fa fa-eye"> <i><b>1.2 Security:</b></i></span>
+                                    Customer and Users will comply with all EZESELLING rules and regulations and security restrictions in connection with use of the SAAS PRODUCT. Customer acknowledges that use of the SAAS PRODUCT is on a named user basis and that Customer may not permit the access and/or use of the SAAS PRODUCT other than by a named user pursuant to the User ID (as defined below) associated with each such named user (the “Users”). Each User will be assigned a unique User Identification name and password for access to and use of the SAAS PRODUCT (“User ID”). Customer shall be solely responsible for ensuring the security and confidentiality of all User IDs. Customer acknowledges that it will be fully responsible for all liabilities incurred through use of any User ID and that any transactions under a User ID will be deemed to have been performed by Customer. Use of any User ID other than as provided in this Agreement shall be considered a breach of this Agreement by Customer
+                                </p>
+
+                                <p class="small">
+                                    <span class="fa fa-shield"> <i><b>1.3 Customer Information:</b></i></span>
+                                    Customer grants to EZESELLING a non-exclusive license to copy, use,
+                                    and display any and all personally identifiable data, information,or communications sent or entered by Customer and/or Users while accessing the SAAS PRODUCT (“Customer 
+                                    Information”) solely to the extent necessary for EZESELLING to provide the SAAS PRODUCT to Customer.  Customer acknowledges that EZESELLING exercises no control whatsoever over the content of Customer Information and it is the sole responsibility of Customer, at its own expense, to provide the information and to ensure that the information Customer and Users transmit or receive complies with all applicable laws and regulations now in place or enacted in the future. Customer shall not and shall not knowingly permit Users to provide Customer Information that:
+                                    (i)Infringes or violates any intellectual property rights, publicity/privacy rights, law or regulation;
+                                    (ii)Is defamatory, harassing, abusive, harmful to minors, obscene,or pornographic;
+                                    (iii)Contains any viruses or programming routines intended to damage, surreptitiously intercept,
+                                    or expropriate any system, data,or personal information;or
+                                    (iv)Is materially false, misleading,or inaccurate.
+
+                                    <p class="small">EZESELLING may take whatever remedial action it determines in its sole discretion is appropriate if Customer Information violates these restrictions, including, but not limited to, immediate suspension or cancellation of the SAAS PRODUCT. EZESELLING is under no obligation, however, to review Customer Information for accuracy, potential liability, or for any other reason.</p>
+                                </p>
+                                <p class="small">
+                                    <span class="fa fa-life-ring"> <i><b>1.4 Data Retention:</b></i></span>
+                                    Customer agrees that EZESELLING’s obligation to keep or maintain any Customer Information obtained in the course of performance of the SAAS PRODUCT shall not extend beyond the expiration of thirty (30) days following the termination of this Agreement. EZESELLING will provide a copy of Customer Information (in a format of EZESELLING’s choosing)upon termination or expiration of this Agreement (at Customer’s expense), provided that Customer requests such copy, in writing, within ten (10) days following the termination of this Agreement.
+                                </p>
+                                <p class="small">
+                                    <span class="fa fa-file"> <i><b>1.5 Data Collection:</b></i></span>
+                                    EZESELLING shall have the right to utilize data capture, syndication and analysis tools, and other similar tools to extract, compile, synthesize, and analyze any non-personally identifiable data or information (including, without limitation, Customer Information) resulting from Customer’s and User’s access and use of the SAAS PRODUCT (“Blind Data”). To the extent that any Blind Data is collected by EZESELLING, such Blind Data shall be solely owned by EZESELLING and may be used by EZESELLING for any lawful business purpose without a duty of accounting to Customer, provided that the Blind Data is used only in an aggregated form, without specifically identifying the source of the Blind Data. Without assuming any obligations or liabilities of Customer, EZESELLING agrees to use commercially reasonable efforts to comply with the applicable U.S. laws and regulations respecting the dissemination and use of such Blind Data.
+                                </p>
+                                <p class="small">
+                                    <span class="fa fa-file-text-o"> <i><b>1.6 Subcontracting:</b></i></span>
+                                    Customer acknowledges that EZESELLING shall have the right to subcontract the hosting of the SAAS PRODUCT, in which event the terms provided by any third-party hosting provider (including, without limitation, any service levels that are stricter than the service levels offered by EZESELLING) will be incorporated herein by reference.
+                                </p>
+
+                                <span class="fa fa-lock"/> <b>CONFIDENTIAL INFORMATION</b>
+                                <p class="small">
+                                    <span class="fa fa-meetup"> <i><b> 4.1Definition:  </b></i></span>
+                                    “Confidential Information” means the SAAS PRODUCT, its associated documentation, EZESELLING’s pricing for the SAAS PRODUCT, and other information disclosed by EZESELLING under this Agreement that is labeled or otherwise designated as confidential or that by its nature would reasonably be expected to be kept confidential.
+                                </p>
+                                <p class="small">
+                                    <span class="fa fa-meetup"> <i><b> 4.2Exclusions:  </b></i></span>
+                                    Notwithstanding the foregoing, EZESELLING’s Confidential Information shall not include information that:
+                                    <li class="small">Is or becomes publicly available through no act or omission of Customer</li>
+                                    <li class="small">Was in Customer’s lawful possession prior to the disclosure and had not been obtained by Customer either directly or indirectly from EZESELLING</li>
+                                    <li class="small">Is lawfully disclosed to Customer by a third party not bound by a duty of non-
+                                    disclosure</li>
+                                    <li class="small">
+                                        Is independently developed by Customer without access to or use of
+the Confidential Information.
+                                    </li>
+                                </p>
+                                <p class="small">
+                                    <span class="fa fa-meetup"> <i><b> 4.3 Nondisclosure: </b></i></span>
+                                    Customer agrees to hold the Confidential Information in confidence. Customer agrees not to make the Confidential Information available in any form to any third party or to use the Confidential Information for any purpose other than performing its obligations or enjoying its rights under this Agreement. Customer agrees to use the same degree of care that it uses to protect its own confidential information of a similar nature and value, but in no event less than a reasonable standard of care, to ensure that Confidential Information is not disclosed or distributed by its employees or agents in violation of the provisions of this Agreement. Customer represents that it has, with each of its employees who may have access to any Confidential Information, an appropriate agreement sufficient to enable it to comply with all of the terms of Section 4.
+                                </p>
+                                <p class="small">
+                                    <span class="fa fa-meetup"> <i><b> 4.4 Required Disclosure: </b></i></span>
+                                    Notwithstanding the foregoing, Customer may disclose the Confidential Information to the extent that such disclosure is required by law or court order, provided, however, that Customer provides to EZESELLING prior written notice of such disclosure 
+and reasonable assistance in obtaining an order protecting the Confidential Information from public disclosure.
+                                </p>
+                                <p class="small">
+                                    <span class="fa fa-meetup"> <i><b> 4.5 Termination/Expiration: </b></i></span>
+                                   After termination or expiration of this Agreement, Customer shall return to EZESELLING any Confidential Information received during the term of this Agreement.
+                                </p>
+
+                                <span class="fa fa-telegram"/> <b> LIMITED WARRANTY</b>
+                                <p class="small">
+                                    For a period of thirty (30) days after delivery of the SAAS PRODUCT, EZESELLING warrants and represents that the SAAS PRODUCT will operate and perform substantially in conformance with the requirements and specifications set forth in the SAAS PRODUCT Product Specification document and the Proposal &amp; Sales Agreement. During the term of this Limited Warranty, EZESELLING will investigate issues reported by Customer in writing in the then current version of the SAAS PRODUCT. Customer’s exclusive remedy with respect to any material nonconformity or defect in the SAAS PRODUCT discovered during the warranty period will be limited to EZESELLING’s repair or correction of any defective or nonconforming component of the SAAS PRODUCT. EZESELLING shall have no obligation to provide corrections or replacements in the event that:
+                                    (I) Customer modified the SAAS PRODUCT (or any component thereof) with out EZESELLING’s prior written consent;
+                                    (ii)The error is caused in whole or in part by persons other than EZESELLING, including without limitation, failure by Customer to properly enter data;or
+                                    (iii)The error is caused in whole or in part by Customers installation or use of the SAAS PRODUCT
+                                     in association with operating environments and platforms other than those specified by EZESELLING.
+
+                                    In the event that EZESELLING determines that a Customers report of an error is incorrect, EZESELLING may charge Customer for EZESELLING’s time at EZESELLING’s published rates then in effect
+                                </p>
+                                <span class="fa fa-telegram"/> <b> TELECOMMUNICATION AUTHORIZATION AND CONSENT The SAAS PRODUCT</b>
+                                <p class="small">
+                                    may include a feature that allows for informational or alert phone calls and/or text messages, including short message service (SMS), to be sent to the mobile phone and telephone numbers provided to EZESELLING by a Customer within the SAASPRODUCT(the “Texting Feature”).
+
+                                    Customer hereby confirms and agrees that it has,or will have, prior express consent (as that term is used in 47 U.S.C. § 227 and 47 CFR § 64.1200) for each and every  mobile phone and telephone
+                                    number Customer enters into the Texting Feature, authorizing Customer or its agent to contact the owner of the mobile phone and/or telephone number, whether by phone call or text message, 
+                                    including, but not limited to,SMS.
+
+                                     Customer acknowledges that Customer may create 
+                                     custom phone calls and or text messages to be sent through the Texting Feature. Customer agrees to use the Texting Feature only for the purpose of sending informational alerts and not advertisements or telemarketing (as that term is used in 47 U.S.C. § 227 and 47 CFR § 64.1200) messages. 
+
+                                    Customer hereby agrees to indemnify and hold harmless EZESELLING against and from any and all liabilities, losses, damages, claims, costs, or expenses of any kind whatsoever (including reasonable attorneys’ fees and other costs) arising directly or indirectly out of or by reasons of improper, unauthorized, or illegal phone calls or text messages to any 
+                                    mobile phone or telephone number Customer or Customer’s employees enter into the
+                                    Texting Feature, including but not limited to any communications edited or added by Customer that are determined to constitute telemarketing.
+                                </p>
+
+                                <span class="fa fa-bandcamp"/> <b> FORCE MAJEURE</b>
+                                <p class="small">
+                                    EZESELLING shall not be in default or otherwise liable for any delay in,or failure of its performance under,
+this Agreement where such delay or failure arises by reason of any Act of God, or any government or any governmental body, war, insurrection, acts of terrorism,the elements, strikes or labor disputes, or other similar or dissimilar cause beyond the control of such party. 
+Customer acknowledges that the performance of certain of EZESELLING’s obligations may require the cooperation of third parties designated by Customer and outside the control of EZESELLING. In the event 
+such third parties fail to cooperate with EZESELLING in a manner that reasonably permits EZESELLING to perform its obligations, such failures shall be consider as causes beyond the control of the EZESELLING for the purposes of this Section and shall not be the basis for a determination that EZESELLING is in breach of any of its obligations under this Agreement or is otherwise liable.
+                                </p>
+
+                            </div>
+                            <div class="col-xs-6">
+                                <span class="fa fa-star"/> <b>DESCRIPTION OF OTHERRIGHTS AND LIMITATIONS</b>
+                                <p class="small">
+                                    <span class="fa fa-meetup"> <i><b>2.1Hardware: </b></i></span>
+                                    Customer shall procure, install, and maintain all equipment, Internet connections, and other hardware (other than the hardware constituting the support center maintained at EZESELLING’s facilities) necessary for Customer and Users to connect to and access theSAAS PRODUCT.
+                                </p>
+                                <p class="small">
+                                    <span class="fa fa-snowflake-o"> <i><b>2.2Conduct: Customer agrees: </b></i></span>
+                                    (i)Not to copy, decompile, reverse engineer, disassemble, attempt to derive the source code, modify, or create derivative works of the SAAS PRODUCT or any related documentation;
+                                    (ii)Not to distribute copies of the SAAS PRODUCT to third parties or otherwise rent, lease, or lend the SAAS PRODUCT to any third-party or use the SAAS PRODUCT as a service bureau;
+                                    (iii) Not to upload or distribute in any way files that contain viruses, Trojans, worms, time bombs, logic bombs, corrupted files, or any other similar software or programs that may damage the operation of the SAAS PRODUCT or another's computer;
+                                    (iv)To comply with all applicable laws regarding use of the SAAS PRODUCT;
+                                    (v) Not to interfere or disrupt networks connected to the SAAS PRODUCT;
+                                    (vi)Not to upload, post, promote,or transmit through the SAAS PRODUCT any unlawful, harassing, libelous, abusive, threatening, harmful, vulgar, obscene, hateful, racially, ethnically, or otherwise objectionable material of any kind or nature;
+                                    (vii) Not to upload amounts of data and/or materials in excess of any limits specified by EZESELLING and not to create large numbers of accounts or otherwise transmit large amounts of data so as to comprise a denial of service attack or otherwise so as to have a detrimental effect on the SAAS PRODUCT;
+                                    (viii) Not to upload, promote, transmit, or post any material that encourages conduct that could constitute a criminal offence or give rise to civil liability;and
+                                    (ix)Not to remove or alter any copyright notices on all copies of the SAAS PRODUCT.
+
+                                    EZESELLING may take whatever remedial action it determines in its sole discretion is appropriate if Customer violates these restrictions, including, but not limited to, immediate suspension or can
+                                    cellation of the SAAS PRODUCT.
+                                </p>
+                                <p class="small">
+                                    <span class="fa fa-meetup"> <i><b>2.3 Support Services:  </b></i></span>
+                                    EZESELLING will provide Customer with Training and Support Services as set forth in the EZESELLING Service Level Agreement and the Proposal &amp; Sales Agreement ("Support Services"), provided, however, that EZESELLING shall have no obligation to provide Support Services if Customer fails to pay the applicable support fees or Customer is otherwise in breach of this Agreement. EZESELLING shall have no obligation to provide Support Services for any SAAS PRODUCT in the event that:
+                                    (i)Customer modifies the SAAS PRODUCT (or any component thereof) without EZESELLING’s prior written consent;
+                                    (ii)Any error is caused in whole or in part by persons other than EZESELLING, including without limitation, 
+                                    or failure by Customer to properly enter data;or
+                                    (iii)Any error is caused in whole or in part by Customer installation or use of the SAAS PRODUCT in association with operating environments and platforms other than those specified by EZESELLING.
+                                    <p class="small">
+                                        Customer agrees to provide EZESELLING with access to such facilities and equipment as are reasonably necessary for EZESELLING to perform its obligations hereunder, including remote access to the SAAS PRODUCT.
+                                    </p>
+                                </p>
+                                <span class="fa fa-handshake-o"/> <b>INFRINGEMENT AND INDEMNIFICATION</b>
+                                <p class="small">
+                                    <span class="fa fa-meetup"> <i><b>3.1Infringement Indemnity: </b></i></span>
+                                    EZESELLING will defend and indemnify Customer against a third-party claim that the SAAS PRODUCT used by Customer in accordance with this Agreement infringes or misappropriates any third-party intellectual property rights in the federal republic of Nigeria,
+                                    provided that:
+                                    <li class="small">Customer agrees to notify EZESELLING promptly in writing of Customer’s knowledge of a claim</li>
+                                    <li class="small">EZESELLING has sole control of the defense and all related settlement negotiations</li>
+                                    <li class="small">Customer provides EZESELLING with the assistance, information, and authority reasonably necessary to perform such defense. EZESELLING shall have no liability for any claim of infringement resulting from:</li>
+                                    <li class="small">Customer’s alteration or modifications of the SAAS PRODUCT without EZESELLING’s prior written approval</li>
+                                    <li class="small">Customer Information;or</li>
+                                    <li class="small">The combination or use of the SAAS PRODUCT with software, data, or material not furnished by EZESELLING.</li>
+                                </p>
+                                <p class="small">
+                                    <span class="fa fa-file-text-o"> <i><b> 3.2Mitigation/Termination:</b></i></span>
+                                    In the event that some or all of the SAAS PRODUCT is held or is reasonably believed by EZESELLING to infringe the rights of a third party, EZESELLING shall have the option, at its expense, to:
+                                    <li class="small">Modify the SAAS PRODUCT to make it non-infringing</li>
+                                    <li class="small">Obtain a license that permits Customer to continue using the SAAS PRODUCT.</li>
+                                    <p class="small">
+                                        If neither of such options can be exercised by EZESELLING on a commercially reasonable basis and the infringing materials materially affect the SAAS PRODUCT or the ability of EZESELLING to meet its obligations under this Agreement, then EZESELLING may terminate this Agreement and 
+                                        Customer shall be entitled to recover from EZESELLING a portion of the license fee paid to EZESELLING prorated over a straight-line term of three (3) years.
+                                    </p>
+                                </p>
+                                <p class="small">
+                                    <span class="fa fa-file-text-o"> <i><b> 3.3 Exclusive Remedy:</b></i></span>
+                                    Section 3 states EZESELLING’s entire liability and exclusive remedy for infringement of third-party intellectual property rights.
+                                </p>
+                                <span class="fa fa-user-times"/> <b>TERMINATION</b>
+                                <p class="small">
+                                    Without prejudice to any other rights, EZESELLING may terminate this Agreement if Customer fails to comply with the terms and conditions contained in this Agreement. In such event, Customer shall cease to have any rights in and to the SAAS PRODUCT or use thereof.
+                                </p>
+                                <span class="fa fa-wrench"/> <b>PROPRIETARY RIGHTS</b>
+                                <p class="small">
+                                    All ownership, title,and rights, including, but not limited to, copyrights, in and to the SAAS PRODUCT and any copies thereof are owned by EZESELLING or its suppliers. All title and intellectual property rights in and to the content which may be accessed through use of the SAAS PRODUCT is the property of the respective content owner and may be protected by applicable copyright or other intellectual property laws and treaties. The agreement grants 
+                                    Customer no rights to use such content. All rights not expressly granted are reserved by EZESELLING.
+                                    If Customer suggests any new features, functionality,or performance for the SAAS PRODUCT
+                                    that EZESELLING subsequently incorporates into the SAAS PRODUCT (or any other software or service), 
+                                    <p class="small">
+                                        Customer hereby acknowledge that:
+                                        <li class="small">
+                                            EZESELLING shall own, and has all rights to use, such suggestions and the SAAS PRODUCT incorporating such new features, functionality, or performance shall be the sole and exclusive property of EZESELLING
+                                        </li>
+                                        <li class="small">
+                                            All such suggestions shall be free from any confidentiality restrictions that might otherwise be imposed upon EZESELLING.
+                                        </li>
+                                    </p>
+                                </p>
+                                <span class="fa fa-wrench"/> <b>U.S. AND NIGERIA GOVERNMENT RESTRICTED RIGHTS</b>
+                                <p class="small">
+                                    The SAAS PRODUCT is provided with RESTRICTED RIGHTS. Use, duplication, or disclosure by the Government is subject to restrictions as set forth in subparagraph (c)(1)(ii) of the Rights in Technical Data and Computer Software clause at DFARS 252.227-7013 or subparagraphs (c)(1) and (2) of the Commercial Computer Software Restricted Rights at 48 CFR 52.227-19, as applicable. Manufacturer is EZESELLING Software.
+                                </p>
+                                <span class="fa fa-wrench"/> <b>EXPORT RESTRICTIONS </b>
+                                <p class="small">
+                                    Customer agrees not to export or re-export the SAAS PRODUCT to any country, person, entity, or end-user subject to U.S.A.  and Nigeria export restrictions. Customer warrants and represents that neither the U.S.A. Bureau of Export Administration nor any other federal agency has suspended, revoked, or denied Customer’s export privileges and Customer covenants to promptly notify EZESELLING in writing in the event of any change in the status of Customer’s export privileges.
+                                </p>
+                                <span class="fa fa-bandcamp"/> <b> DISCLAIMER OF WARRANTIES</b>
+                                <p class="small">
+                                    ASIDE FROM THE EXPRESS WARRANTIES SET FORTH IN 
+                                    SECTION 9, THERE IS NO WARRANTY OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING, WITHOUT LIMITATION, THE IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, OR NON-INFRINGEMENT. EZESELLING DOES NOT WARRANT THAT THE SAAS PRODUCT WILL OPERATE UNINTERRUPTED OR ERROR FREE OR THAT THE RESULTS OF ANY PROGRAMS OR SERVICES OR THAT THE SAAS PRODUCT, WILL MEET CUSTOMER'S 
+                                    REQUIREMENTS OR EXPECTATIONS.
+                                </p>
+                                <span class="fa fa-bandcamp"/> <b> LIMITATION OF LIABILITY</b>
+                                <p class="small">
+                                    To the maximum extent permitted by applicable law, in no event shall EZESELLING or its suppliers be liable for any special, incidental, indirect, or consequential damages whatsoever (including, without limitation, damages for loss of business profits, business interruption, loss of 
+business information, or any other pecuniary loss) arising out of the use of or inability to use 
+the SAAS PRODUCT or the provision of or failure to provide Support Services, even if EZESELLING has been advised of the possibility of such damages. In any case, EZESELLING's entire liability under any provision of this Agreement shall be limited to the amount actually paid by Customer for the SAAS PRODUCT. Because some states and jurisdictions do not allow the exclusion or limitation of liability, the above limitation may not apply to Customer.
+                                </p>
+                                <span class="fa fa-bandcamp"/> <b> GOVERNING LAW</b>
+                                <p class="small">
+                                    This agreement is made under, and shall be governed by, the laws of the Federal republic of Nigeria and U.S.A. Any claim, dispute, action, or proceeding arising under this agreement shall be maintained only in a state or federal court located in the State of New Hampshire, and 
+Customer agrees to such governing law and venue for all purposes.
+                                </p>
+                                <span class="fa fa-bandcamp"/> <b> SEVERABILITY</b>
+                                <p class="small">
+                                    This agreement is made under, and shall be governed by, the laws of the Federal republic of Nigeria and U.S.A. Any claim, dispute, action, or proceeding arising under this agreement shall be maintained only in a state or federal court located in the State of New Hampshire, and 
+Customer agrees to such governing law and venue for all purposes.
+                                </p>
+                                <span class="fa fa-user-circle-o"/> <b> ENTIRE AGREEMENT</b>
+                                <p class="small">
+                                    This Agreement shall constitute the complete agreement between the parties and supersedes all previous agreements or representations, written or oral, with respect to the subject matter hereof. This Agreement may not be modified or amended except in a writing signed by a duly authorized representative of each party. It is expressly agreed that any terms and conditions of any
+purchase order or similar instrument of Customer shall be superseded by the terms and conditions of this Agreement to the extent that such terms may be in conflict. No waiver shall be implied from conduct or failure to enforce rights. No waiver shall be effective unless
+in a writing signed by both parties. Should Customer have any questions concerning the Agreement, or if Customer desires to contact EZESELLING for any reason, write: EZESELLING
+Software.
+
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                
+            </div>
+        </div>
+    </t>
+</template>
+
+<template id="report_store">
+    <t t-call="report.html_container">
+        <t t-foreach="docs" t-as="o">
+            <t t-call="store_master.report_store_document" t-lang="o.partner_id.lang"/>
+        </t>
+    </t>
+</template>
+
+</data>
+</odoo>

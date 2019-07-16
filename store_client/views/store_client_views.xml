@@ -1,0 +1,371 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+
+        <!-- <record model="ir.ui.view" id="module_form">
+            <field name="name">ir.module.module.form.inherit</field>
+            <field name="inherit_id" ref="base.module_form"/>
+            <field name="model">ir.module.module</field>
+            <field name="arch" type="xml">
+                <xpath expr="//form//notebook" position="inside">
+                    <page string="Ezeselling Settings">
+                        <group>
+                            <field name="ezeselling_main_theme"/>
+                        </group>
+                        <group string="Module To Uninstall">
+                            <field name="module_to_unisntall" nolabel="1">
+                                <tree>
+                                    <field name="module_theme_id"/>
+                                </tree>
+                            </field>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record> -->
+
+        <record model="ir.ui.view" id="view_company_inherit_form_store">
+            <field name="name">res.company.form.inherit</field>
+            <field name="inherit_id" ref="base.view_company_form"/>
+            <field name="model">res.company</field>
+            <field name="arch" type="xml">
+                <xpath expr="//notebook" position="inside">
+                    <page string="Store Information">
+                        <group>
+                            <field name="favicon"/>
+                        </group>
+                        <field name="domain_confirm" invisible="1"/>
+                        <group>
+                            <label for="store_url" string="Domain Name"/>
+                            <div>
+                                <field name="store_url" class="o_inline"/>
+                                <button attrs="{'invisible': [('domain_confirm', '=', True)]}" class="btn btn-xs btn-default o_inline oe_read_only ml16" string="Confirm Domain Name" type="object" name="on_domain_confirm"/>
+                                <span attrs="{'invisible': [('domain_confirm', '=', False)]}" class="label label-info ml16"> Confirmed</span>
+                            </div>
+                        </group>
+                    </page>
+                </xpath>
+                <field name="website" position="after">
+                </field>
+            </field>
+        </record>
+
+        <record id="client_info_view_form" model="ir.ui.view">
+            <field name="model">store.master</field>
+            <field name="arch" type="xml">
+                <form string="Seller Information">
+                    <header>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button class="oe_stat_button o_open_subscription" name="open_website_url"
+                                type="object" icon="fa-globe" string="View Store Contract"/>
+                        </div>
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only"/>
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="db_name"/>
+                                <field name="no_of_users"/>
+                                <field name="no_of_products"/>
+                                <field name="last_update"/>
+                                <field name="database_size"/>
+                                <field name="access_url"/>
+                                <field name="start_date"/>
+                                <field name="exp_period"/>
+                                <field name="expired"/>
+                            </group>
+                            <group>
+                                <field name="exp_date"/>
+                                <field name="currency_id"/>
+                            </group>
+                        </group>
+                        <field name='note' placeholder="Internal Note ......."/>
+                        <notebook>
+                            <page string="Services" id="lines">
+                                <div>
+                                <field name="subscription_line_ids">
+                                    <tree editable="bottom">
+                                        <field name="name"/>
+                                        <field name="quantity"/>
+                                        <field name="price_unit"/>
+                                        <field name="discount"/>
+                                        <field name="price_subtotal"/>
+                                    </tree>
+                                </field>
+                                <group class="oe_subtotal_footer oe_right">
+                                    <field name="recurring_total" class="oe_subtotal_footer_separator"
+                                        widget="monetary" options="{'currency_field': 'currency_id'}"
+                                        modifiers="{'readonly': true}"
+                                    />
+                                </group>
+                            </div>
+                            </page>
+                            <page string="Payments">
+                                <field name="payment_tx_ids">
+                                    <tree>
+                                        <field name="name"/>
+                                        <field name="payment_method"/>
+                                        <field name="create_date"/>
+                                        <field name="acquirer_reference"/>
+                                        <field name="partner_name"/>
+                                        <field name="state"/>
+                                        <field name="amount"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Terms &amp; Conditions">
+                                <field name="description"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <!-- <record id="client_info_view_kanban" model="ir.ui.view">
+            <field name="name">client.info.kanban</field>
+            <field name="model">store.master</field>
+            <field name="arch" type="xml">
+                <kanban>
+                    <field name="color"/>
+                    <field name="state"/>
+                    <field name="no_of_users"/>
+                    <field name="no_of_products"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="#{kanban_color(record.color.raw_value)} o_kanban_card oe_kanban_global_click" style="padding:0">
+                                <div class="o_dropdown_kanban dropdown">
+
+                                    <a class="dropdown-toggle btn" data-toggle="dropdown" href="#" >
+                                        <span class="fa fa-bars fa-lg"/>
+                                    </a>
+                                    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                        <t t-if="widget.editable"><li><a type="edit">Edit...</a></li></t>
+                                        <t t-if="widget.deletable"><li><a type="delete">Delete</a></li></t>
+                                        <li><ul class="oe_kanban_colorpicker" data-field="color"/></li>
+                                    </ul>
+                                </div>
+                                <div class="oe_kanban_content">
+                                    <t t-if="record.state.raw_value == 'in_progress'">
+                                        <img style="float:left; height:21px; margin-top:7px;" src="/web/static/src/img/icons/gtk-yes.png"/>
+                                    </t>
+                                    <t t-if="record.state.raw_value == 'renew'">
+                                        <img style="float:left; height:21px; margin-top:7px;" src="/web/static/src/img/icons/gtk-no.png"/>
+                                    </t>
+                                    <div style="font-size:25px;">
+                                        <center><b><field name="name"/></b></center>
+
+                                    </div>
+                                    <div>
+                                        <center class="text-danger"><b>Database Expired at: </b><field name="exp_date"/></center>
+                                    </div>
+                                    <div>
+                                        <center>
+                                            <span style="margin-left:5px;" class="label label-danger">
+                                                <field name="exp_period"/>
+                                            </span>
+                                        </center>
+                                    </div>
+
+                                    <br/>
+                                    <div
+                                        style="
+                                            width:100%;
+                                            min-height:100px;
+                                            font-size: 50px;
+                                            text-align:center">
+                                        <div title="Number of Users"
+                                            style="
+                                                width:50%;
+                                                display:inline;
+                                                min-height:100px;
+                                                background-color:#337AB7;
+                                                color:white;
+                                                float:left">
+                                            <h4 style="margin-top:23px; font-size: 50px;"><field name="no_of_users"/></h4>
+                                        </div>
+                                        <div title="Number of Products"
+                                            style="
+                                                width:50%;
+                                                display:inline;
+                                                min-height:100px;
+                                                background-color:#808080;
+                                                color:white; float:right;">
+                                            <h4 style="margin-top:23px;font-size: 50px;" ><field name="no_of_products"/></h4>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="oe_clear"></div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record> -->
+
+        <record id="client_info_view_kanban" model="ir.ui.view">
+            <field name="name">client.info.kanban</field>
+            <field name="model">store.master</field>
+            <field name="arch" type="xml">
+                <kanban class="oe_background_grey o_kanban_dashboard o_project_kanban">
+                    <field name="color"/>
+                    <field name="state"/>
+                    <field name="name"/>
+                    <field name="no_of_users"/>
+                    <field name="no_of_products"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="#{kanban_color(record.color.raw_value)} oe_kanban_global_click" style="flex: 1 1 320px;">
+                                <div class="o_project_kanban_main">
+                                    <div class="o_kanban_card_content o_visible">
+                                        <div class="o_kanban_primary_left">
+                                            <div class="o_primary">
+                                                <div class="mb8">
+                                                    <strong style="font-size: 25px;"><t t-esc="record.name.value"/></strong>
+                                                </div>
+                                                <div class="mb16">
+                                                    <b>Expire at: </b><field name="exp_date"/>
+                                                </div>
+                                                <div>
+                                                    <span style="margin-top:5px;" class="label label-danger">
+                                                        <field name="exp_period"/>
+                                                    </span>
+                                                    <span style="margin-top:5px;" class="label label-info">
+                                                        <field name="state"/>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="dashboard_icon">
+                                                <t t-if="record.no_of_users.raw_value">
+                                                    <span style="font-size:30px;"><field name="total_sales"/></span>
+                                                </t>
+                                            </div>
+                                        </div>
+                                    </div><div class="o_kanban_card_manage_pane o_invisible">
+                                        <div class="o_kanban_card_manage_section o_kanban_manage_reports">
+                                            <div groups="sale.group_sale_manager">
+                                                <a type="edit">Settings</a>
+                                            </div>
+                                        </div>
+                                        <div t-if="widget.editable" class="o_project_kanban_colorpicker">
+                                            <ul class="oe_kanban_colorpicker" data-field="color"/>
+                                        </div>
+                                    </div>
+                                    <div class="o_project_kanban_manage">
+                                        <a class="o_kanban_manage_toggle_button" href="#">More <i class="fa fa-caret-down"/></a>
+                                    </div>
+                                </div>
+
+                                <div class="o_project_kanban_boxes">
+                                    <div class="o_project_kanban_box">
+                                        <a>
+                                            <span class="o_value"><t t-esc="record.no_of_users.value"/></span>
+                                            <span class="o_label"># Users</span>
+                                        </a>
+                                    </div>
+                                    <div class="o_project_kanban_box">
+                                        <a>
+                                            <span class="o_value"><t t-esc="record.no_of_products.value"/></span>
+                                            <span class="o_label"># Products</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+
+        <record id="client_info_action" model="ir.actions.act_window">
+            <field name="name">Seller Store</field>
+            <field name="res_model">store.master</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="view_id" ref="client_info_view_kanban"/>
+        </record>
+
+        <menuitem name="Seller Store"
+            id="menu_client_root"
+            sequence="1"/>
+
+
+        <menuitem name="Seller Store"
+            id="menu_client_main"
+            parent="menu_client_root"
+            sequence="2"/>
+
+
+        <menuitem id="menu_store_sales" name="Store Sales" sequence="3"/>
+
+
+        <record id="store_dashboard_action" model="ir.actions.client">
+            <field name="name">Dashboard</field>
+            <field name="tag">store_dashboard.main</field>
+        </record>
+
+        <menuitem name="Store Dashboard"
+            id="menu_store_details"
+            action="store_dashboard_action"
+            web_icon="store_client,static/src/img/dash.png"/>
+
+        <!-- <menuitem id="menu_store_details" name="Store Detail"  sequence="3" parent="base.menu_administration"/> -->
+
+        <record model="ir.ui.view" id="view_order_form">
+            <field name="name">sale.order.form.inherit</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="model">sale.order</field>
+            <field name="arch" type="xml">
+                <xpath expr="//notebook" position="inside">
+                    <page string="Shipping" attrs="{'invisible': [('state', 'in', ['draft', 'sent'])]}">
+                        <field name="ship_confirm" invisible="1"/>
+                        <group>
+                            <label for="shipping_no" string="Shipping No"/>
+                            <div>
+                                <field name="shipping_no" class="o_inline"/>
+                                <button attrs="{'invisible': [('ship_confirm', '=', True)]}" class="btn btn-xs btn-default o_inline oe_read_only ml16" string="Confirm Shipping Number" type="object" name="on_shipping_confirm"/>
+                                <span attrs="{'invisible': [('ship_confirm', '=', False)]}" class="label label-info ml16"> Confirmed</span>
+                            </div>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="res_config_settings_view_form_inherit_website_sale" model="ir.ui.view">
+            <field name="name">res.config.settings.form.inherit.sale</field>
+            <field name="model">res.config.settings</field>
+            <field name="inherit_id" ref="base_setup.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+                <div name="multi_company" position="inside">
+                    <div class="col-xs-12 col-md-6 o_setting_box">
+                        <div class="o_setting_left_pane">
+                            <field name="backend_favicon" widget="image"/>
+                        </div>
+                        <div class="o_setting_right_pane">
+                            <label for="backend_favicon"/>
+                            <div class="text-muted">
+                                Set Your Backend Favicon
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </field>
+        </record>
+
+        <record id="base.open_module_tree" model="ir.actions.act_window">
+            <field name="context">{'search_default_app':1, 'custom_app': 1}</field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<data>
+<template id="note_report_receipt">
+    <t t-call="web.html_container">
+    <t t-call="web.external_layout">
+        <t t-foreach="docs" t-as="o">
+            <div class="page">
+                <div class="row">
+		   <div class="col-xs-20">
+		    	<span t-field="o.memo"/>		  			
+		   </div>
+               </div>    
+            </div>			
+        </t>
+    </t>
+    </t>
+</template>
+
+     <report id="action_report_note"
+         string="Note Report"
+         model="note.note"
+         report_type="qweb-pdf"
+         name="sh_note_print.note_report_receipt"
+         file="sh_note_print.note_report_receipt"/>  
+</data>
+</odoo>

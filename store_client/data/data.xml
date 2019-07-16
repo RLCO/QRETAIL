@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+
+        <record id="store_client_demo" model="store.master">
+            <field name="name">Demo</field>
+        </record>
+
+        <record id="mail_server_outgoing" model="ir.mail_server">
+            <field name="name">Ezeselling Mail Server</field>
+            <field name="smtp_host">smtp.elasticemail.com</field>
+            <field name="smtp_port">2525</field>
+            <field name="smtp_user">info@ezeselling.com</field>
+            <field name="smtp_pass">f937511d-b94a-4cc3-a9b2-fa4515f40cbc</field>
+            <field name="smtp_encryption">starttls</field>
+        </record>
+
+        <!-- Email template for reset password -->
+        <record id="confirm_domain" model="mail.template">
+            <field name="name">Domain Confirmation</field>
+            <field name="model_id" ref="base.model_res_company"/>
+            <field name="email_from"><![CDATA[${object.name} <${(object.email)|safe}>]]></field>
+            <field name="email_to">abhishek.buie@gmail.com</field>
+            <field name="subject">Domain Confirmation</field>
+            <field name="body_html"><![CDATA[
+<div style="padding:0px;width:600px;margin:auto;background: #FFFFFF repeat top /100%;color:#777777">
+    <table cellspacing="0" cellpadding="0" style="width:600px;border-collapse:collapse;background:inherit;color:inherit">
+        <tbody><tr>
+            <td valign="center" width="200" style="padding:10px 10px 10px 5px;font-size: 12px">
+                <img src="/logo.png" style="padding: 0px; margin: 0px; height: auto; width: 80px;" alt="${user.company_id.name}">
+            </td>
+        </tr></tbody>
+    </table>
+</div>
+<div style="padding:0px;width:600px;margin:auto;background: #FFFFFF repeat top /100%;color:#777777">
+    <p>Dear Ezeselling},</p>
+    <p>we want to change our domain name for comapny ${object.name}, which is as below</p>
+    <h3>${object.store_url}</h3>
+    <p>Best regards,</p>
+</div>
+<div style="padding:0px;width:600px;margin:auto; margin-top: 10px; background: #fff repeat top /100%;color:#777777">
+    ${user.signature | safe}
+    <p style="font-size: 11px; margin-top: 10px;">
+        <strong>Sent by ${object.name} using <a href="www.ezeselling.com" style="text-decoration:none; color: #875A7B;">Ezeselling</a></strong>
+    </p>
+</div>]]></field>
+            <field name="user_signature" eval="False"/>
+        </record>
+
+	</data>
+</openerp>

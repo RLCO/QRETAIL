@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="pos_dashboard_action" model="ir.actions.client">
+        <field name="name">Dashboard</field>
+        <field name="tag">pos_dashboard.main</field>
+    </record>
+    <menuitem name="POS Dashboard" id="pos_dashboard_menu" action="pos_dashboard_action" parent="point_of_sale.menu_point_root" sequence="-1"/>
+
+
+    <record model="ir.ui.view" id="view_pos_config_form_inherit">
+        <field name="name">pos.config.form.view.inherit</field>
+        <field name="model">pos.config</field>
+        <field name="inherit_id" ref="point_of_sale.pos_config_view_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='fiscal_position_ids']" position="after">
+                <field name='target_for_today' />
+            </xpath>
+        </field>
+    </record>
+</odoo>

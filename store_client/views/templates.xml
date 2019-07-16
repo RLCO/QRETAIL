@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="web_layout" inherit_id="web.layout">
+       <xpath expr="//title" position="replace"><title t-esc="title or 'Ezeselling'"/></xpath>
+       <xpath expr="//link[@rel='shortcut icon']" position="replace">
+           <t t-set="favicon" t-value="request and request.env['ir.default'].get('res.config.settings', 'backend_favicon')"/>
+           <t t-if="favicon">
+               <link rel="shortcut icon" t-attf-href="data:image/png;base64,#{favicon}" type="image/x-icon"/>
+           </t>
+       </xpath>
+    </template>
+</odoo>

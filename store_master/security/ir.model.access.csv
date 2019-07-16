@@ -1,0 +1,15 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_product_packaging_seller,product.packaging.seller,product.model_product_packaging,store_master.group_seller,1,0,0,0
+access_product_template_seller,product.template.seller,product.model_product_template,store_master.group_seller,1,1,1,1
+access_product_product_seller,product.product.seller,product.model_product_product,store_master.group_seller,1,1,1,1
+access_product_uom_seller,product.uom.seller,uom.model_uom_uom,store_master.group_seller,1,0,0,0
+access_product_price_history_seeller,produce.price.history.seller,product.model_product_price_history,store_master.group_seller,1,0,1,0
+access_res_partner_seller,base.res.partner.seller,base.model_res_partner,base.group_public,1,0,0,0
+access_store_database_list_seller,store.database.list.seller,model_store_database_list,base.group_user,1,1,1,1
+access_service_type_module,access_service_type_module,model_service_type_module,base.group_user,1,0,0,0
+access_store_template,access_store_template,model_store_template,base.group_user,1,1,1,1 
+access_subscription_code,access_subscription_code,model_subscription_code,base.group_user,1,1,1,1
+access_store_subscription_line,access_store_subscription_line,model_store_subscription_line,base.group_user,1,1,1,1
+access_store_subscription_line_option,access_store_subscription_line_option,model_store_subscription_line_option,base.group_user,1,1,1,1
+access_saas_plan,access_saas_plan,model_saas_plan,base.group_user,1,1,1,1
+access_saas_config_param,access_saas_config_param,model_saas_config_param,base.group_system,1,1,1,1

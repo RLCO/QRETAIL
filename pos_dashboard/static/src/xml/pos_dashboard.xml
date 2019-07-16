@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="PosDashboardMain">
+        <div class="container-fluid o_pos_dashboard">
+            <div class="o_pos_dashboard_filter"/>
+            <div class="o_pos_dashboard_custome"/>
+            <div class="o_pos_dashboard_gage"/>
+            <div class="o_pos_dashboard_payment_method"/>
+            <div class="o_pos_dashboard_top_item"/>
+            <div class="o_pos_dashboard_graph"/>
+        </div>
+    </t>
+
+    <t t-name="PosDashboardFilter">
+        <div class="row">
+            <div class="col-xs-12 o_pos_dashboard_filter">
+                <div class="alert alert-info alert-dismissible" role="alert">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&amp;times;</a>
+                    <span><strong>For auto refresh the dashboard click on button ==> </strong></span>
+                    <span id="start_auto_refresh"><span class="btn btn-info btn-xs">Start Auto refresh</span></span>
+                    <span id="stop_auto_refresh"><span class="btn btn-danger btn-xs">Stop Auto refresh</span></span>
+
+                    <div class="pull-right">
+                        <div class="btn-group date_filter" role="group" aria-label="...">
+                            <button id="today" data-date-filter="today" type="button" class="btn btn-info btn-sm">Today</button>
+                            <button id="week" data-date-filter="week" type="button" class="btn btn-default btn-sm">This Week</button>
+                            <button id="month" data-date-filter="month" type="button" class="btn btn-default btn-sm">This Month</button>
+                            <button id="year" data-date-filter="year" type="button" class="btn btn-default btn-sm">This Year</button>
+                        </div>
+                    </div>
+                    <div class="filter_by_pos dropdown pull-right mr32">
+                        <button class="btn btn-info btn-sm dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="dropdown-text">All Point Of Sale</span>
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                            <li class="active"><a t-att-data-pos="0" href="#">All Point Of Sale</a></li>
+                            <t t-foreach="widget.data" t-as="p">
+                                <li><a t-att-data-pos="p[0]"><t t-esc="p[1][0]"/></a></li>
+                            </t>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+
+    <t t-name="PosDashboardCustome">
+        <div class="">
+            <div class="row">
+                <div class="col-md-3 col-sm-6 col-xs-12 o_pos_dashboard_custome_col">
+                    <div class="text-center o_new_customer">
+                        <div class="o_custom_text">
+                            <strong>New Customer <span class="fa fa-arrow-circle-o-down"/></strong>
+                        </div>
+                        <div class="o_new_customer_value">
+                            <span><t t-esc="widget.data.new_customer"/></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 col-xs-12 o_pos_dashboard_custome_col"> 
+                    <div class="text-center o_repeat_customer">
+                        <div class="o_custom_text">
+                            <strong>Repeat Customer <span class="fa fa-arrow-circle-o-down"/></strong>
+                        </div>
+                        <div class="o_repeat_customer_value">
+                            <span><t t-esc="widget.data.repeat_customer"/></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 col-xs-12 o_pos_dashboard_custome_col">
+                    <div class="text-center o_total_sale">
+                        <div class="o_custom_text">
+                            <strong>Total Sale <span class="fa fa-arrow-circle-o-down"/></strong>
+                        </div>
+                        <div class="o_total_sale_value">
+                            <i>$</i> <span><t t-esc="widget.data.total_sales"/></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 col-xs-12 o_pos_dashboard_custome_col">
+                    <div class="text-center o_total_transaction">
+                        <div class="o_custom_text">
+                            <strong>Total Transaction <span class="fa fa-arrow-circle-o-down"/></strong>
+                        </div>
+                        <div class="o_total_transaction_value">
+                            <span><t t-esc="widget.data.total_transaction"/></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+
+    <t t-name="PosDashboardGage">
+        <div class="">
+            <div class="row">
+                <div class="col-md-4 col-sm-6 col-xs-12 o_pos_dashboard_main_gage_col">
+                    <div>
+                        <div id="gage">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8 col-sm-6 col-xs-12 o_pos_dashboard_store_col"> 
+                    <h3 class="ml8">TOP STORE BY SALES</h3>
+                    <table class="top-item table table-condensed">
+                        <tbody>
+                            <tr>
+                                <t t-call="TotalSalesByStore"/>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </t>
+
+    <t t-name="TotalSalesByStore">
+        <t t-foreach="widget.data.sales_by_pos" t-as="p">
+            <td>
+                <div><strong># <t t-esc="p_index + 1"/></strong></div>
+                <div style="font-size:25px;font-weight:bold">$ <t t-esc="p[1][1]"/></div>
+                <div style="font-size:12px;text-transform:uppercase;"><t t-esc="p[1][0]"/></div>
+            </td>
+        </t>
+    </t>
+
+
+    <t t-name="PosDashboardTopItem">
+        <div class="o_box">
+            <div class="row">
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    <div class="panel panel-default" style="max-height:300px; overflow:auto">
+                        <div class="panel-heading" style="background:#7C7BAD; color:white">
+                            <h3 class="panel-title" >TOP ITEMS BY SALES </h3>
+                        </div>
+                        <div class="panel-body" style="padding:0">
+                            <table class=" table table-hover">
+                                <tr style="color:#7C7BAD;">
+                                    <th class="col-md-1"><small>#</small></th>
+                                    <th class="col-md-2"><small>PRODUCT CODE</small></th>
+                                    <th class="col-md-2"><small>PRODUCT NAME</small></th>
+                                    <th class="col-md-2"><small>SALES</small></th>
+                                </tr>
+                                <tbody class="top-product">
+                                    <t t-call="TopItem"/>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading" style="background:#7C7BAD; color:white">
+                            <h3 class="panel-title">TOP CATEGORIES BY SALES</h3>
+                        </div>
+                        <div class="panel-body" style="padding:0">
+                            <table class="table table-hover">
+                                <tr style="color:#7C7BAD;">
+                                    <th class="col-md-1"><small>#</small></th>
+                                    <th class="col-md-2"><small>CATEGORY NAME</small></th>
+                                    <th class="col-md-2"><small>SALES</small></th>
+                                </tr>
+                                <tbody class="top-cat">
+                                    <t t-call="TopCat"/>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+
+    <t t-name="TopItem">
+        <t t-foreach="widget.data.top_product" t-as="p">
+            <tr>
+                <td><small><t t-esc="p_index + 1"/></small></td>
+                <td><small><t t-esc="p[1][2]"/></small></td>
+                <td><small><t t-esc="p[1][0]"/></small></td>
+                <td><small><t t-esc="p[1][1]"/></small></td>
+            </tr>
+        </t>
+    </t>
+    <t t-name="TopCat">
+        <t t-foreach="widget.data.top_cat" t-as="c">
+            <tr>
+                <td><small><t t-esc="c_index + 1"/></small></td>
+                <td><small><t t-esc="c[1][0]"/></small></td>
+                <td><small><t t-esc="c[1][1]"/></small></td>
+            </tr>
+        </t>
+    </t>
+
+    <t t-name="PosDashboardGraph">
+        <div class="o_box">
+            <div class="row">
+                <div class="col-md-12 col-sm-12 col-xs-12 o_pos_dashboard_bar_col">
+                    <h3 class="ml8">SALES BY HOUR</h3>
+                    <svg></svg>
+                </div>
+            </div>
+        </div>
+    </t>
+
+    <t t-name="PosDashboardPaymentMethod">
+        <div class="o_box">
+            <div class="row">
+                <div class="col-xs-12 o_pos_dashboard_store_col">
+                    <h3 class="ml8">TOP PAYMENT METHOD BY SALES</h3>
+                    <table class="top-payment-method table table-condensed">
+                        <tbody>
+                            <tr>
+                                <t t-call="PaymentMethod"/>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </t>
+
+    <t t-name="PaymentMethod">
+        <t t-foreach="widget.data" t-as="p">
+            <td>
+                <div><strong># <t t-esc="p_index + 1"/></strong></div>
+                <div style="font-size:25px;font-weight:bold">$ <t t-esc="p[1][1]"/></div>
+                <div style="font-size:12px;text-transform:uppercase;"><t t-esc="p[1][0]"/></div>
+            </td>
+        </t>
+    </t>
+
+    
+
+</templates>

@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_ir_mail_server_owner,ir.mail.server.owner,base.model_ir_mail_server,group_store_owner,1,1,1,1
+access_ir_sequence_owner,ir.sequence.owner,base.model_ir_sequence,group_store_owner,1,1,1,1
+access_fetchmail_server_owner,fetchmail.server.owner,fetchmail.model_fetchmail_server,group_store_owner,1,1,1,1
+access_res_users_owner,res.users.owner,base.model_res_users,group_store_owner,1,1,1,1
+access_store_master_owner,store.master.owner,model_store_master,group_store_owner,1,1,1,1
+access_store_master_owner,store.master.owner,model_store_master,base.group_user,1,1,1,1

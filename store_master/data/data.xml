@@ -1,0 +1,919 @@
+<?xml version="1.0"?>
+<openerp>
+    <data noupdate="1">
+
+         <record id="base.NGN" model="res.currency">
+            <field name="active" eval="True"/>
+        </record>
+
+        <!-- Sequences for sale.order -->
+        <record id="seq_store" model="ir.sequence">
+            <field name="name">Store</field>
+            <field name="code">store.database.list</field>
+            <field name="prefix">EZE</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="ir_cron_remove_store" model="ir.cron">
+            <field name="name">Remove Store</field>
+            <field name="model_id" ref="model_store_database_list"/>
+            <field name="state">code</field>
+            <field name="code">model.make_archive_store()</field>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">hours</field>
+            <field name="numbercall">-1</field>
+            <field eval="False" name="doall"/>
+        </record>
+
+
+        <record id="ir_cron_module_store_expire_notification" model="ir.cron">
+            <field name="name">Store Expire Notification</field>
+            <field eval="True" name="active" />
+            <field name="user_id" ref="base.user_root" />
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field eval="False" name="doall" />
+            <field name="model_id" ref="model_store_database_list"/>
+            <field name="code">model.store_expire_notification()</field>
+        </record>
+
+        <record id="product_lite" model="product.product">
+            <field name="name">Lite</field>
+            <field name="standard_price">40</field>
+            <field name="list_price">90</field>
+            <field name="type">service</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+            <field name="uom_po_id" ref="uom.product_uom_unit"/>
+            <field name="description">All essential features a retail needs.</field>
+        </record>
+        <record id="product_pro" model="product.product">
+            <field name="name">Pro</field>
+            <field name="standard_price">40</field>
+            <field name="list_price">90</field>
+            <field name="type">service</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+            <field name="uom_po_id" ref="uom.product_uom_unit"/>
+            <field name="description">Perfect for growing retail businesses.</field>
+        </record>
+        <record id="product_erp_ecommerce" model="product.product">
+            <field name="name">ENTERPRISE</field>
+            <field name="standard_price">40</field>
+            <field name="list_price">90</field>
+            <field name="type">service</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+            <field name="uom_po_id" ref="uom.product_uom_unit"/>
+            <field name="description">Effectively manage multiple outlets.</field>
+        </record>
+
+        <record id="product_free_tiral" model="product.product">
+            <field name="name">Free Trial</field>
+            <field name="standard_price">00</field>
+            <field name="list_price">00</field>
+            <field name="type">service</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+            <field name="uom_po_id" ref="uom.product_uom_unit"/>
+            <field name="description">Free Trial</field>
+        </record>
+
+
+
+        <record id="plan_lite" model="saas.plan">
+            <field name="name">Lite</field>
+            <field name="template_db">lite</field>
+            <field name="max_users">5</field>
+        </record>
+        <record id="plan_pro" model="saas.plan">
+            <field name="name">Pro</field>
+            <field name="template_db">pro</field>
+            <field name="max_users">7</field>
+        </record>
+        <record id="plan_enterprise" model="saas.plan">
+            <field name="name">Enterprise</field>
+            <field name="template_db">enterprise</field>
+            <field name="max_users">10</field>
+        </record>
+
+        <record id="store_template_erp_1" model="store.template">
+            <field name="name">Free Trial</field>
+            <field name="exp_period">free_trail</field>
+            <field name="manager_id" ref="base.user_root"/>
+            <field name="allow_online" eval="True"/>
+            <field name="currency_id" ref="base.USD"/>
+        </record>
+
+        <record id="store_subscription_line_1" model="store.subscription.line">
+            <field name="product_id" ref="product_free_tiral"/>
+            <field name="name">This Service is under free trail, your online store will expire in 15 days</field>
+            <field name="quantity">0</field>
+            <field name="price_unit">0</field>
+            <field name="store_tmpl_id" ref="store_template_erp_1"/>
+        </record>
+
+        <record id="contact_email" model="mail.template">
+            <field name="name">Email Contact</field>
+            <field name="model_id" ref="base.model_res_partner"/>
+            <field name="email_from"><![CDATA[<${(user.email)|safe}>]]></field>
+            <field name="email_to">${object.email|safe}</field>
+            <field name="subject"><![CDATA[Client Info]]></field>
+            <field name="body_html"><![CDATA[
+<p>
+    Hello ${object.name},
+</p>
+
+<p>
+    Thanks,
+</p>
+<pre>
+--
+</pre>]]></field>
+        </record>
+
+        <record id="email_template_store_email_verify" model="mail.template">
+            <field name="name">Store Email Verify</field>
+            <field name="model_id" ref="store_master.model_store_database_list"/>
+            <!-- <field name="email_from"><![CDATA[${object.company_id.name} <${(object.company_id.email or user.email)|safe}>]]></field> -->
+            <field name="email_to">${object.partner_id.email|safe}</field>
+            <field name="subject">Email Verification</field>
+            <field name="body_html"><![CDATA[
+<!-- Header image designed by Freepik.com -->
+<table width="100%" cellspacing="0" cellpadding="0" align="center">
+<tbody>
+<tr>
+<td style="background-color: #eeebeb;" align="center" valign="top" width="100%"><center>
+<table class="w320" width="600" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td align="center" valign="top">
+<table style="margin: 0 auto;" width="100%" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td style="text-align: center;"><a href="#"><img class="w320" src="https://www.ezeselling.com/logo.png" alt="company logo" width="197" height="59" /></a></td>
+</tr>
+</tbody>
+</table>
+<table class="force-full-width" style="background-color: #3bcdb0;" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td style="background-color: #3bcdb0;">
+<table class="force-full-width" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td class="mobile-spacing" style="font-size: 40px; font-weight: 600; color: #ffffff; text-align: center;">
+<div class="mobile-br"><span style="font-family: Arial, sans-serif; color: #000000;">Just One More Step...</span></div>
+<div class="mobile-br"><span style="font-family: Arial, sans-serif; color: #ffffff;">Store&nbsp;<u><strong>${object.name}</strong></u><strong>&nbsp;is Ready.</strong></span></div>
+</td>
+</tr>
+<tr>
+<td class="w320 mobile-spacing" style="font-size: 20px; text-align: center; padding: 0 75px; color: #6f6f6f;"><span style="color: #ffffff;"><em>Please <span style="text-decoration: underline;">verify your mail</span> otherwise <span style="text-decoration: underline;">store will expire</span>.</em></span></td>
+</tr>
+</tbody>
+</table>
+<table width="100%" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td><img style="max-width: 100%; display: block;" src="https://www.filepicker.io/api/file/4BgENLefRVCrgMGTAENj" /></td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+<table class="force-full-width" cellspacing="0" cellpadding="0" bgcolor="#ffffff">
+<tbody>
+<tr>
+<td style="background-color: #ffffff; padding-top: 15px;"><center></center>
+<table style="margin: 0 auto;" width="100%" cellspacing="0" cellpadding="10">
+<tbody>
+<tr>
+<td style="text-align: center; margin: 0px auto; width: 574px;">
+<div><span style="background-color: #0000ff; font-size: 18px;"><a style="background-color: #0000ff; color: #ffffff; display: inline-block; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-weight: 400; line-height: 45px; text-align: center; text-decoration: none; width: 180px; text-size-adjust: none;" href="/shop/email/verfication?store_code=${object.uuid}&amp;activation_code=${object.activation_code}">Verify Your Mail</a></span><span style="text-align: left;">&nbsp;</span></div>
+<div>&nbsp;</div>
+</td>
+</tr>
+</tbody>
+</table>
+<table class="force-full-width" style="width: 599px; height: 159px;" cellspacing="0" cellpadding="0" bgcolor="#363636">
+<tbody>
+<tr>
+<td style="background-color: #363636; text-align: center; width: 595px;"><br /> <img src="https://www.filepicker.io/api/file/FjkhDKXsTFyaHnXhhBCw" width="62" height="56" /> <img src="https://www.filepicker.io/api/file/W6gXqm5BRL6qSvQRcI7u" width="68" height="56" /> <img src="https://www.filepicker.io/api/file/eV9YfQkBTiaOu9PA9gxv" width="61" height="56" /></td>
+</tr>
+<tr>
+<td style="color: #f0f0f0; font-size: 14px; text-align: center; padding-bottom: 4px; width: 595px;">&copy; EZESelling 2017 All Rights Reserved</td>
+</tr>
+<tr>
+<td style="color: #27aa90; font-size: 14px; text-align: center; width: 595px;"><a href="#">View in browser</a> | <a href="https://www.ezeselling.com">Contact</a> | <a href="#">Unsubscribe</a></td>
+</tr>
+<tr>
+<td style="font-size: 12px; width: 595px;">&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</center></td>
+</tr>
+</tbody>
+</table>
+
+    ]]></field>
+        </record>
+
+        <record id="email_template_store_registration_active" model="mail.template">
+            <field name="name">Store Registration Activated</field>
+            <field name="model_id" ref="store_master.model_store_database_list"/>
+            <field name="email_from"><![CDATA[${object.company_id.name} <${(object.company_id.email or user.email)|safe}>]]></field>
+            <field name="email_to">${object.partner_id.email|safe}</field>
+            <field name="subject">Store Registration Activated</field>
+<field name="body_html"><![CDATA[
+
+ <!-- Header image designed by Freepik.com -->
+<table width="100%" cellspacing="0" cellpadding="0" align="center">
+<tbody>
+<tr>
+<td style="background-color: #eeebeb;" align="center" valign="top" width="100%"><center>
+<table class="w320" width="600" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td align="center" valign="top">
+<table style="margin: 0 auto;" width="100%" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td style="text-align: center;"><a href="#"><img class="w320" src="https://www.ezeselling.com/logo.png" alt="company logo" width="197" height="59" /></a></td>
+</tr>
+</tbody>
+</table>
+<table class="force-full-width" style="background-color: #3bcdb0;" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td style="background-color: #3bcdb0;">
+<table class="force-full-width" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td class="mobile-spacing" style="font-size: 40px; font-weight: 600; color: #ffffff; text-align: center;">
+<div class="mobile-br"><span style="font-family: Arial, sans-serif; color: #000000;">Congratulations!!!&nbsp;</span></div>
+<div class="mobile-br"><span style="font-family: Arial, sans-serif; color: #ffffff;">Store&nbsp;<u><strong>${object.name}</strong></u><strong>&nbsp;is Ready.</strong></span></div>
+</td>
+</tr>
+<tr>
+<td class="w320 mobile-spacing" style="font-size: 24px; text-align: center; padding: 0 75px; color: #6f6f6f;">Verify Email to keep your store active.</td>
+</tr>
+</tbody>
+</table>
+<table width="100%" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td><img style="max-width: 100%; display: block;" src="https://www.filepicker.io/api/file/4BgENLefRVCrgMGTAENj" /></td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+<table class="force-full-width" cellspacing="0" cellpadding="0" bgcolor="#ffffff">
+<tbody>
+<tr>
+<td style="background-color: #ffffff; padding-top: 15px;"><center></center>
+<table style="margin: 0 auto;" width="100%" cellspacing="0" cellpadding="10">
+<tbody>
+<tr>
+<td style="text-align: center; margin: 0px auto; width: 574px;">
+<div><span style="background-color: #0000ff; font-size: 18px;"><a style="background-color: #0000ff; color: #ffffff; display: inline-block; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-weight: 400; line-height: 45px; text-align: center; text-decoration: none; width: 180px; text-size-adjust: none;" href="/shop/email/verfication?store_code=${object.uuid}&amp;activation_code=${object.activation_code}">Verify Your Mail</a></span><span style="text-align: left;">&nbsp;</span></div>
+<div>&nbsp;</div>
+</td>
+</tr>
+</tbody>
+</table>
+<table class="force-full-width" style="width: 599px; height: 159px;" cellspacing="0" cellpadding="0" bgcolor="#363636">
+<tbody>
+<tr>
+<td style="background-color: #363636; text-align: center; width: 595px;"><br /> <img src="https://www.filepicker.io/api/file/FjkhDKXsTFyaHnXhhBCw" width="62" height="56" /> <img src="https://www.filepicker.io/api/file/W6gXqm5BRL6qSvQRcI7u" width="68" height="56" /> <img src="https://www.filepicker.io/api/file/eV9YfQkBTiaOu9PA9gxv" width="61" height="56" /></td>
+</tr>
+<tr>
+<td style="color: #f0f0f0; font-size: 14px; text-align: center; padding-bottom: 4px; width: 595px;">&copy; EZESelling 2017 All Rights Reserved</td>
+</tr>
+<tr>
+<td style="color: #27aa90; font-size: 14px; text-align: center; width: 595px;"><a href="#">View in browser</a> | <a href="https://www.ezeselling.com">Contact</a> | <a href="#">Unsubscribe</a></td>
+</tr>
+<tr>
+<td style="font-size: 12px; width: 595px;">&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</center></td>
+</tr>
+</tbody>
+</table>
+
+]]></field> </record>
+
+              <!-- ******************************Expiry Mails Start from here*****************************************-->
+              <!-- Need to look into this And have to add the payment detail and store validation date-->
+
+        <record id="email_template_expire_notification_before_7_days" model="mail.template">
+            <field name="name">Please Extend Your Store Validity</field>
+            <field name="model_id" ref="store_master.model_store_database_list"/>
+            <field name="email_from"><![CDATA[${object.company_id.name} <${(object.company_id.email or user.email)|safe}>]]></field>
+            <field name="email_to">${object.product_id.email|safe}</field>
+            <field name="subject">Extend Your Store Validity</field>
+            <field name="body_html"><![CDATA[
+
+
+ <!-- Header image designed by Freepik.com -->
+<table width="100%" cellspacing="0" cellpadding="0" align="center">
+<tbody>
+<tr>
+<td style="background-color: #eeebeb;" align="center" valign="top" width="100%"><center>
+<table class="w320" width="600" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td align="center" valign="top">
+<table style="margin: 0 auto;" width="100%" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td style="text-align: center;"><a href="#"><img class="w320" src="https://www.ezeselling.com/logo.png" alt="company logo" width="197" height="59" /></a></td>
+</tr>
+</tbody>
+</table>
+<table class="force-full-width" style="background-color: #3bcdb0;" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td style="background-color: #3bcdb0;">
+<table class="force-full-width" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td class="mobile-spacing" style="font-size: 40px; font-weight: 600; color: #ffffff; text-align: center;">
+<div class="mobile-br"><span style="font-family: Arial, sans-serif; color: #000000;">Congratulations!!!&nbsp;</span></div>
+<div class="mobile-br"><span style="font-family: Arial, sans-serif; color: #ffffff;">Store&nbsp;<u><strong>${object.name}</strong></u><strong>&nbsp;is Ready.</strong></span></div>
+</td>
+</tr>
+<tr>
+<td class="w320 mobile-spacing" style="font-size: 24px; text-align: center; padding: 0 75px; color: #6f6f6f;">Verify Email to keep your store active.</td>
+</tr>
+</tbody>
+</table>
+<table width="100%" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td><img style="max-width: 100%; display: block;" src="https://www.filepicker.io/api/file/4BgENLefRVCrgMGTAENj" /></td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+<table class="force-full-width" cellspacing="0" cellpadding="0" bgcolor="#ffffff">
+<tbody>
+<tr>
+<td style="background-color: #ffffff; padding-top: 15px;"><center></center>
+<table style="margin: 0 auto;" width="100%" cellspacing="0" cellpadding="10">
+<tbody>
+<tr>
+<td style="text-align: center; margin: 0px auto; width: 574px;">
+<div><span style="background-color: #0000ff; font-size: 18px;"><a style="background-color: #0000ff; color: #ffffff; display: inline-block; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-weight: 400; line-height: 45px; text-align: center; text-decoration: none; width: 180px; text-size-adjust: none;" href="/shop/email/verfication?store_code=${object.uuid}&amp;activation_code=${object.activation_code}">Verify Your Mail</a></span><span style="text-align: left;">&nbsp;</span></div>
+<div>&nbsp;</div>
+</td>
+</tr>
+</tbody>
+</table>
+<table class="force-full-width" style="width: 599px; height: 159px;" cellspacing="0" cellpadding="0" bgcolor="#363636">
+<tbody>
+<tr>
+<td style="background-color: #363636; text-align: center; width: 595px;"><br /> <img src="https://www.filepicker.io/api/file/FjkhDKXsTFyaHnXhhBCw" width="62" height="56" /> <img src="https://www.filepicker.io/api/file/W6gXqm5BRL6qSvQRcI7u" width="68" height="56" /> <img src="https://www.filepicker.io/api/file/eV9YfQkBTiaOu9PA9gxv" width="61" height="56" /></td>
+</tr>
+<tr>
+<td style="color: #f0f0f0; font-size: 14px; text-align: center; padding-bottom: 4px; width: 595px;">&copy; EZESelling 2017 All Rights Reserved</td>
+</tr>
+<tr>
+<td style="color: #27aa90; font-size: 14px; text-align: center; width: 595px;"><a href="#">View in browser</a> | <a href="https://www.ezeselling.com">Contact</a> | <a href="#">Unsubscribe</a></td>
+</tr>
+<tr>
+<td style="font-size: 12px; width: 595px;">&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</center></td>
+</tr>
+</tbody>
+</table>
+
+
+]]></field>
+        </record>
+
+        <record id="email_template_expire_notification_before_7_days" model="mail.template">
+            <field name="name">Your Store will expire in 7 days</field>
+            <field name="model_id" ref="store_master.model_store_database_list"/>
+            <field name="email_from"><![CDATA[${object.company_id.name} <${(object.company_id.email or user.email)|safe}>]]></field>
+            <field name="email_to">${object.product_id.email|safe}</field>
+            <field name="subject">Extend Your Store Validity</field>
+            <field name="body_html"><![CDATA[
+
+ <!-- Header image designed by Freepik.com -->
+<table width="100%" cellspacing="0" cellpadding="0" align="center">
+<tbody>
+<tr>
+<td style="background-color: #eeebeb;" align="center" valign="top" width="100%"><center>
+<table class="w320" width="600" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td align="center" valign="top">
+<table style="margin: 0 auto;" width="100%" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td style="text-align: center;"><a href="#"><img class="w320" src="https://www.ezeselling.com/logo.png" alt="company logo" width="197" height="59" /></a></td>
+</tr>
+</tbody>
+</table>
+<table class="force-full-width" style="background-color: #3bcdb0;" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td style="background-color: #3bcdb0;">
+<table class="force-full-width" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td class="mobile-spacing" style="font-size: 40px; font-weight: 600; color: #ffffff; text-align: center;">
+<div class="mobile-br"><span style="font-family: Arial, sans-serif; color: #000000;">Congratulations!!!&nbsp;</span></div>
+<div class="mobile-br"><span style="font-family: Arial, sans-serif; color: #ffffff;">Store&nbsp;<u><strong>${object.name}</strong></u><strong>&nbsp;is Ready.</strong></span></div>
+</td>
+</tr>
+<tr>
+<td class="w320 mobile-spacing" style="font-size: 24px; text-align: center; padding: 0 75px; color: #6f6f6f;">Verify Email to keep your store active.</td>
+</tr>
+</tbody>
+</table>
+<table width="100%" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td><img style="max-width: 100%; display: block;" src="https://www.filepicker.io/api/file/4BgENLefRVCrgMGTAENj" /></td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+<table class="force-full-width" cellspacing="0" cellpadding="0" bgcolor="#ffffff">
+<tbody>
+<tr>
+<td style="background-color: #ffffff; padding-top: 15px;"><center></center>
+<table style="margin: 0 auto;" width="100%" cellspacing="0" cellpadding="10">
+<tbody>
+<tr>
+<td style="text-align: center; margin: 0px auto; width: 574px;">
+<div><span style="background-color: #0000ff; font-size: 18px;"><a style="background-color: #0000ff; color: #ffffff; display: inline-block; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-weight: 400; line-height: 45px; text-align: center; text-decoration: none; width: 180px; text-size-adjust: none;" href="/shop/email/verfication?store_code=${object.uuid}&amp;activation_code=${object.activation_code}">Verify Your Mail</a></span><span style="text-align: left;">&nbsp;</span></div>
+<div>&nbsp;</div>
+</td>
+</tr>
+</tbody>
+</table>
+<table class="force-full-width" style="width: 599px; height: 159px;" cellspacing="0" cellpadding="0" bgcolor="#363636">
+<tbody>
+<tr>
+<td style="background-color: #363636; text-align: center; width: 595px;"><br /> <img src="https://www.filepicker.io/api/file/FjkhDKXsTFyaHnXhhBCw" width="62" height="56" /> <img src="https://www.filepicker.io/api/file/W6gXqm5BRL6qSvQRcI7u" width="68" height="56" /> <img src="https://www.filepicker.io/api/file/eV9YfQkBTiaOu9PA9gxv" width="61" height="56" /></td>
+</tr>
+<tr>
+<td style="color: #f0f0f0; font-size: 14px; text-align: center; padding-bottom: 4px; width: 595px;">&copy; EZESelling 2017 All Rights Reserved</td>
+</tr>
+<tr>
+<td style="color: #27aa90; font-size: 14px; text-align: center; width: 595px;"><a href="#">View in browser</a> | <a href="https://www.ezeselling.com">Contact</a> | <a href="#">Unsubscribe</a></td>
+</tr>
+<tr>
+<td style="font-size: 12px; width: 595px;">&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</center></td>
+</tr>
+</tbody>
+</table>
+]]></field>
+        </record>
+        <record id="email_template_expire_notification_before_2_days" model="mail.template">
+            <field name="name">Your store will expire in 2 days</field>
+            <field name="model_id" ref="store_master.model_store_database_list"/>
+            <field name="email_from"><![CDATA[${object.company_id.name} <${(object.company_id.email or user.email)|safe}>]]></field>
+            <field name="email_to">${object.product_id.email|safe}</field>
+            <field name="subject">Extend Your Store Validity</field>
+            <field name="body_html"><![CDATA[
+
+ <!-- Header image designed by Freepik.com -->
+<table width="100%" cellspacing="0" cellpadding="0" align="center">
+<tbody>
+<tr>
+<td style="background-color: #eeebeb;" align="center" valign="top" width="100%"><center>
+<table class="w320" width="600" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td align="center" valign="top">
+<table style="margin: 0 auto;" width="100%" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td style="text-align: center;"><a href="#"><img class="w320" src="https://www.ezeselling.com/logo.png" alt="company logo" width="197" height="59" /></a></td>
+</tr>
+</tbody>
+</table>
+<table class="force-full-width" style="background-color: #3bcdb0;" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td style="background-color: #3bcdb0;">
+<table class="force-full-width" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td class="mobile-spacing" style="font-size: 40px; font-weight: 600; color: #ffffff; text-align: center;">
+<div class="mobile-br"><span style="font-family: Arial, sans-serif; color: #000000;">Congratulations!!!&nbsp;</span></div>
+<div class="mobile-br"><span style="font-family: Arial, sans-serif; color: #ffffff;">Store&nbsp;<u><strong>${object.name}</strong></u><strong>&nbsp;is Ready.</strong></span></div>
+</td>
+</tr>
+<tr>
+<td class="w320 mobile-spacing" style="font-size: 24px; text-align: center; padding: 0 75px; color: #6f6f6f;">Verify Email to keep your store active.</td>
+</tr>
+</tbody>
+</table>
+<table width="100%" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td><img style="max-width: 100%; display: block;" src="https://www.filepicker.io/api/file/4BgENLefRVCrgMGTAENj" /></td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+<table class="force-full-width" cellspacing="0" cellpadding="0" bgcolor="#ffffff">
+<tbody>
+<tr>
+<td style="background-color: #ffffff; padding-top: 15px;"><center></center>
+<table style="margin: 0 auto;" width="100%" cellspacing="0" cellpadding="10">
+<tbody>
+<tr>
+<td style="text-align: center; margin: 0px auto; width: 574px;">
+<div><span style="background-color: #0000ff; font-size: 18px;"><a style="background-color: #0000ff; color: #ffffff; display: inline-block; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-weight: 400; line-height: 45px; text-align: center; text-decoration: none; width: 180px; text-size-adjust: none;" href="/shop/email/verfication?store_code=${object.uuid}&amp;activation_code=${object.activation_code}">Verify Your Mail</a></span><span style="text-align: left;">&nbsp;</span></div>
+<div>&nbsp;</div>
+</td>
+</tr>
+</tbody>
+</table>
+<table class="force-full-width" style="width: 599px; height: 159px;" cellspacing="0" cellpadding="0" bgcolor="#363636">
+<tbody>
+<tr>
+<td style="background-color: #363636; text-align: center; width: 595px;"><br /> <img src="https://www.filepicker.io/api/file/FjkhDKXsTFyaHnXhhBCw" width="62" height="56" /> <img src="https://www.filepicker.io/api/file/W6gXqm5BRL6qSvQRcI7u" width="68" height="56" /> <img src="https://www.filepicker.io/api/file/eV9YfQkBTiaOu9PA9gxv" width="61" height="56" /></td>
+</tr>
+<tr>
+<td style="color: #f0f0f0; font-size: 14px; text-align: center; padding-bottom: 4px; width: 595px;">&copy; EZESelling 2017 All Rights Reserved</td>
+</tr>
+<tr>
+<td style="color: #27aa90; font-size: 14px; text-align: center; width: 595px;"><a href="#">View in browser</a> | <a href="https://www.ezeselling.com">Contact</a> | <a href="#">Unsubscribe</a></td>
+</tr>
+<tr>
+<td style="font-size: 12px; width: 595px;">&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</center></td>
+</tr>
+</tbody>
+</table>]]></field>
+        </record>
+        <record id="email_template_expire_notification_today" model="mail.template">
+            <field name="name">Your Store is expire Today</field>
+            <field name="model_id" ref="store_master.model_store_database_list"/>
+            <field name="email_from"><![CDATA[${object.company_id.name} <${(object.company_id.email or user.email)|safe}>]]></field>
+            <field name="email_to">${object.partner_id.email|safe}</field>
+            <field name="subject">Extend Your Store Validity</field>
+            <field name="body_html"><![CDATA[
+
+<!-- Header image designed by Freepik.com -->
+<table width="100%" cellspacing="0" cellpadding="0" align="center">
+<tbody>
+<tr>
+<td style="background-color: #eeebeb;" align="center" valign="top" width="100%"><center>
+<table class="w320" width="600" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td align="center" valign="top">
+<table style="margin: 0 auto;" width="100%" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td style="text-align: center;"><a href="#"><img class="w320" src="https://www.ezeselling.com/logo.png" alt="company logo" width="197" height="59" /></a></td>
+</tr>
+</tbody>
+</table>
+<table class="force-full-width" style="background-color: #3bcdb0;" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td style="background-color: #3bcdb0;">
+<table class="force-full-width" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td class="mobile-spacing" style="font-size: 40px; font-weight: 600; color: #ffffff; text-align: center;">
+<div class="mobile-br"><span style="font-family: Arial, sans-serif; color: #000000;">Congratulations!!!&nbsp;</span></div>
+<div class="mobile-br"><span style="font-family: Arial, sans-serif; color: #ffffff;">Store&nbsp;<u><strong>${object.name}</strong></u><strong>&nbsp;is Ready.</strong></span></div>
+</td>
+</tr>
+<tr>
+<td class="w320 mobile-spacing" style="font-size: 24px; text-align: center; padding: 0 75px; color: #6f6f6f;">Verify Email to keep your store active.</td>
+</tr>
+</tbody>
+</table>
+<table width="100%" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td><img style="max-width: 100%; display: block;" src="https://www.filepicker.io/api/file/4BgENLefRVCrgMGTAENj" /></td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+<table class="force-full-width" cellspacing="0" cellpadding="0" bgcolor="#ffffff">
+<tbody>
+<tr>
+<td style="background-color: #ffffff; padding-top: 15px;"><center></center>
+<table style="margin: 0 auto;" width="100%" cellspacing="0" cellpadding="10">
+<tbody>
+<tr>
+<td style="text-align: center; margin: 0px auto; width: 574px;">
+<div><span style="background-color: #0000ff; font-size: 18px;"><a style="background-color: #0000ff; color: #ffffff; display: inline-block; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-weight: 400; line-height: 45px; text-align: center; text-decoration: none; width: 180px; text-size-adjust: none;" href="/shop/email/verfication?store_code=${object.uuid}&amp;activation_code=${object.activation_code}">Verify Your Mail</a></span><span style="text-align: left;">&nbsp;</span></div>
+<div>&nbsp;</div>
+</td>
+</tr>
+</tbody>
+</table>
+<table class="force-full-width" style="width: 599px; height: 159px;" cellspacing="0" cellpadding="0" bgcolor="#363636">
+<tbody>
+<tr>
+<td style="background-color: #363636; text-align: center; width: 595px;"><br /> <img src="https://www.filepicker.io/api/file/FjkhDKXsTFyaHnXhhBCw" width="62" height="56" /> <img src="https://www.filepicker.io/api/file/W6gXqm5BRL6qSvQRcI7u" width="68" height="56" /> <img src="https://www.filepicker.io/api/file/eV9YfQkBTiaOu9PA9gxv" width="61" height="56" /></td>
+</tr>
+<tr>
+<td style="color: #f0f0f0; font-size: 14px; text-align: center; padding-bottom: 4px; width: 595px;">&copy; EZESelling 2017 All Rights Reserved</td>
+</tr>
+<tr>
+<td style="color: #27aa90; font-size: 14px; text-align: center; width: 595px;"><a href="#">View in browser</a> | <a href="https://www.ezeselling.com">Contact</a> | <a href="#">Unsubscribe</a></td>
+</tr>
+<tr>
+<td style="font-size: 12px; width: 595px;">&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</center></td>
+</tr>
+</tbody>
+</table>
+
+]]></field>
+        </record>
+
+              <!-- ******************************Expiry Mails Ends here*****************************************-->
+
+              <!-- Need to look into this And have to add the new plan detail and store validation date-->
+        <record id="email_template_new_plan" model="mail.template">
+            <field name="name">Your new plan</field>
+            <field name="model_id" ref="store_master.model_store_database_list"/>
+            <field name="email_from"><![CDATA[${object.company_id.name} <${(object.company_id.email or user.email)|safe}>]]></field>
+            <field name="email_to">${object.partner_id.email|safe}</field>
+            <field name="subject">Extend Your Store Validity(New Plan)</field>
+            <field name="body_html"><![CDATA[
+<!-- Header image designed by Freepik.com -->
+<table width="100%" cellspacing="0" cellpadding="0" align="center">
+<tbody>
+<tr>
+<td style="background-color: #eeebeb;" align="center" valign="top" width="100%"><center>
+<table class="w320" width="600" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td align="center" valign="top">
+<table style="margin: 0 auto;" width="100%" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td style="text-align: center;"><a href="#"><img class="w320" src="https://www.ezeselling.com/logo.png" alt="company logo" width="197" height="59" /></a></td>
+</tr>
+</tbody>
+</table>
+<table class="force-full-width" style="background-color: #3bcdb0;" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td style="background-color: #3bcdb0;">
+<table class="force-full-width" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td class="mobile-spacing" style="font-size: 40px; font-weight: 600; color: #ffffff; text-align: center;">
+<div class="mobile-br"><span style="font-family: Arial, sans-serif; color: #000000;">Congratulations!!!&nbsp;</span></div>
+<div class="mobile-br"><span style="font-family: Arial, sans-serif; color: #ffffff;">Store&nbsp;<u><strong>${object.name}</strong></u><strong>&nbsp;is Ready.</strong></span></div>
+</td>
+</tr>
+<tr>
+<td class="w320 mobile-spacing" style="font-size: 24px; text-align: center; padding: 0 75px; color: #6f6f6f;">Verify Email to keep your store active.</td>
+</tr>
+</tbody>
+</table>
+<table width="100%" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td><img style="max-width: 100%; display: block;" src="https://www.filepicker.io/api/file/4BgENLefRVCrgMGTAENj" /></td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+<table class="force-full-width" cellspacing="0" cellpadding="0" bgcolor="#ffffff">
+<tbody>
+<tr>
+<td style="background-color: #ffffff; padding-top: 15px;"><center></center>
+<table style="margin: 0 auto;" width="100%" cellspacing="0" cellpadding="10">
+<tbody>
+<tr>
+<td style="text-align: center; margin: 0px auto; width: 574px;">
+<div><span style="background-color: #0000ff; font-size: 18px;"><a style="background-color: #0000ff; color: #ffffff; display: inline-block; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-weight: 400; line-height: 45px; text-align: center; text-decoration: none; width: 180px; text-size-adjust: none;" href="/shop/email/verfication?store_code=${object.uuid}&amp;activation_code=${object.activation_code}">Verify Your Mail</a></span><span style="text-align: left;">&nbsp;</span></div>
+<div>&nbsp;</div>
+</td>
+</tr>
+</tbody>
+</table>
+<table class="force-full-width" style="width: 599px; height: 159px;" cellspacing="0" cellpadding="0" bgcolor="#363636">
+<tbody>
+<tr>
+<td style="background-color: #363636; text-align: center; width: 595px;"><br /> <img src="https://www.filepicker.io/api/file/FjkhDKXsTFyaHnXhhBCw" width="62" height="56" /> <img src="https://www.filepicker.io/api/file/W6gXqm5BRL6qSvQRcI7u" width="68" height="56" /> <img src="https://www.filepicker.io/api/file/eV9YfQkBTiaOu9PA9gxv" width="61" height="56" /></td>
+</tr>
+<tr>
+<td style="color: #f0f0f0; font-size: 14px; text-align: center; padding-bottom: 4px; width: 595px;">&copy; EZESelling 2017 All Rights Reserved</td>
+</tr>
+<tr>
+<td style="color: #27aa90; font-size: 14px; text-align: center; width: 595px;"><a href="#">View in browser</a> | <a href="https://www.ezeselling.com">Contact</a> | <a href="#">Unsubscribe</a></td>
+</tr>
+<tr>
+<td style="font-size: 12px; width: 595px;">&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</center></td>
+</tr>
+</tbody>
+</table>
+]]></field>
+        </record>
+
+              <!-- Need to look into this And have to add the payment detail and store validation date-->
+        <record id="email_template_payment" model="mail.template">
+            <field name="name">Payment</field>
+            <field name="model_id" ref="store_master.model_store_database_list"/>
+            <field name="email_from"><![CDATA[${object.company_id.name} <${(object.company_id.email or user.email)|safe}>]]></field>
+            <field name="email_to">${object.partner_id.email|safe}</field>
+            <field name="subject">Extend Your Store Validity(Payment)</field>
+            <field name="body_html"><![CDATA[
+
+<!-- Header image designed by Freepik.com -->
+<table width="100%" cellspacing="0" cellpadding="0" align="center">
+<tbody>
+<tr>
+<td style="background-color: #eeebeb;" align="center" valign="top" width="100%"><center>
+<table class="w320" width="600" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td align="center" valign="top">
+<table style="margin: 0 auto;" width="100%" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td style="text-align: center;"><a href="#"><img class="w320" src="https://www.ezeselling.com/logo.png" alt="company logo" width="197" height="59" /></a></td>
+</tr>
+</tbody>
+</table>
+<table class="force-full-width" style="background-color: #3bcdb0;" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td style="background-color: #3bcdb0;">
+<table class="force-full-width" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td class="mobile-spacing" style="font-size: 40px; font-weight: 600; color: #ffffff; text-align: center;">
+<div class="mobile-br"><span style="font-family: Arial, sans-serif; color: #000000;">Congratulations!!!&nbsp;</span></div>
+<div class="mobile-br"><span style="font-family: Arial, sans-serif; color: #ffffff;">Store&nbsp;<u><strong>${object.name}</strong></u><strong>&nbsp;is Ready.</strong></span></div>
+</td>
+</tr>
+<tr>
+<td class="w320 mobile-spacing" style="font-size: 24px; text-align: center; padding: 0 75px; color: #6f6f6f;">Verify Email to keep your store active.</td>
+</tr>
+</tbody>
+</table>
+<table width="100%" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td><img style="max-width: 100%; display: block;" src="https://www.filepicker.io/api/file/4BgENLefRVCrgMGTAENj" /></td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+<table class="force-full-width" cellspacing="0" cellpadding="0" bgcolor="#ffffff">
+<tbody>
+<tr>
+<td style="background-color: #ffffff; padding-top: 15px;"><center></center>
+<table style="margin: 0 auto;" width="100%" cellspacing="0" cellpadding="10">
+<tbody>
+<tr>
+<td style="text-align: center; margin: 0px auto; width: 574px;">
+<div><span style="background-color: #0000ff; font-size: 18px;"><a style="background-color: #0000ff; color: #ffffff; display: inline-block; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-weight: 400; line-height: 45px; text-align: center; text-decoration: none; width: 180px; text-size-adjust: none;" href="/shop/email/verfication?store_code=${object.uuid}&amp;activation_code=${object.activation_code}">Verify Your Mail</a></span><span style="text-align: left;">&nbsp;</span></div>
+<div>&nbsp;</div>
+</td>
+</tr>
+</tbody>
+</table>
+<table class="force-full-width" style="width: 599px; height: 159px;" cellspacing="0" cellpadding="0" bgcolor="#363636">
+<tbody>
+<tr>
+<td style="background-color: #363636; text-align: center; width: 595px;"><br /> <img src="https://www.filepicker.io/api/file/FjkhDKXsTFyaHnXhhBCw" width="62" height="56" /> <img src="https://www.filepicker.io/api/file/W6gXqm5BRL6qSvQRcI7u" width="68" height="56" /> <img src="https://www.filepicker.io/api/file/eV9YfQkBTiaOu9PA9gxv" width="61" height="56" /></td>
+</tr>
+<tr>
+<td style="color: #f0f0f0; font-size: 14px; text-align: center; padding-bottom: 4px; width: 595px;">&copy; EZESelling 2017 All Rights Reserved</td>
+</tr>
+<tr>
+<td style="color: #27aa90; font-size: 14px; text-align: center; width: 595px;"><a href="#">View in browser</a> | <a href="https://www.ezeselling.com">Contact</a> | <a href="#">Unsubscribe</a></td>
+</tr>
+<tr>
+<td style="font-size: 12px; width: 595px;">&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</center></td>
+</tr>
+</tbody>
+</table>
+
+]]></field>
+        </record>
+
+    </data>
+</openerp>

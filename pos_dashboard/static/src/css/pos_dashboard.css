@@ -1,0 +1,134 @@
+.o_pos_dashboard {
+  background: #F7F7F7;
+  height: 100%;
+}
+.o_pos_dashboard .o_pos_dashboard_custome_col {
+  padding: 10px 8px;
+}
+.o_pos_dashboard .o_pos_dashboard_custome_col > div > hr {
+  margin: 12px -18px 15px -18px;
+  border-color: #CBCBCB;
+}
+.o_pos_dashboard .o_pos_dashboard_custome_col > div:first-child {
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.14);
+  /*background: #FFF;*/
+  border-radius: 2px;
+  /*padding: 25px 18px 18px 18px;*/
+  height: 120px;
+}
+.o_pos_dashboard .o_pos_dashboard_custome_col .o_new_customer {
+    background: #FF5A70;
+    color: white;
+}
+.o_pos_dashboard .o_pos_dashboard_custome_col .o_repeat_customer {
+    background: #B980F1;
+    color: white;
+}
+.o_pos_dashboard .o_pos_dashboard_custome_col .o_total_sale {
+    background: #4BB9EA;
+    color: white;
+}
+.o_pos_dashboard .o_pos_dashboard_custome_col .o_total_transaction {
+    background: #73D0BD;
+    color: white;
+}
+.o_pos_dashboard .o_pos_dashboard_custome_col .o_custom_text {
+    width: 100%;
+    text-align: center;
+    color: white;
+    opacity: 0.6;
+    height: 30px;
+    background: black;
+    font-size: medium;
+    line-height: 29px;
+}
+
+.o_pos_dashboard .o_pos_dashboard_custome_col .o_new_customer .o_new_customer_value {
+    font-size: 60px;
+    font-weight: bold;
+}
+.o_pos_dashboard .o_pos_dashboard_custome_col .o_repeat_customer .o_repeat_customer_value {
+    font-size: 60px;
+    font-weight: bold;
+}
+.o_pos_dashboard .o_pos_dashboard_custome_col .o_total_sale .o_total_sale_value {
+    font-size: 30px;
+    font-weight: bold;
+    line-height: 90px;
+}
+.o_pos_dashboard .o_pos_dashboard_custome_col .o_total_transaction .o_total_transaction_value {
+    font-size: 45px;
+    font-weight: bold;
+    line-height: 85px;
+}
+
+.o_pos_dashboard .o_pos_dashboard_main_gage_col, .o_pos_dashboard .o_pos_dashboard_store_col {
+  padding: 10px 8px;
+}
+.o_pos_dashboard .o_pos_dashboard_main_gage_col > div:first-child, .o_pos_dashboard .o_pos_dashboard_store_col > div:first-child {
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.14);
+  border-radius: 2px;
+  height: 200px;
+}
+.o_pos_dashboard .o_pos_dashboard_main_gage_col #gage {
+  height: 200px;
+  margin-left: 60px;
+}
+.o_pos_dashboard .top-item {
+  margin-bottom: 0px;
+}
+.o_pos_dashboard .o_pos_dashboard_bar_col svg{
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.14);
+  border-radius: 2px;
+  height: 500px;
+}
+.o_pos_dashboard .o_pos_dashboard_filter {
+  padding: 3px 8px;
+}
+
+.o_pos_dashboard .o_pos_dashboard_filter #stop_auto_refresh {
+  display: none;
+}
+
+.dropdown-menu li.active > a,
+.dropdown-menu li.active > a:hover,
+.dropdown-menu li.active > a:focus {
+  color: #fff;
+  background-color: #b91773;
+  border-color: #fff;
+}
+
+.o_pos_dashboard .o_box {
+  color: #a8a8a8;
+  background-color: #ffffff;
+  background-size: cover;
+  margin-bottom: 16px;
+  position: static;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+  padding: 25px 16px;
+}
+
+.o_pos_dashboard .o_pos_dashboard_store_col table {
+    height: 110px;
+    max-height: 110px;
+    margin-bottom: 0;
+    table-layout: fixed;
+    border-spacing: 10px 0px;
+    border-collapse: separate;
+
+ }
+
+.o_pos_dashboard .o_pos_dashboard_store_col table td {
+  vertical-align: middle;
+  text-align: center;
+  border-top: 1px solid #ffffff;
+  width: 25%;
+  height: 33px;
+  background-color: #7c7bad;
+  color: white;
+}
+
+/*.o_pos_dashboard .filter_by_pos .active {
+  background-color: #7C7BAD;
+}
+*/

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="ExpireNotification">
+        <div class="expire_notification_section">
+            <div t-attf-class="" style="background:rgba(51, 51, 51, 0.78);color:white;padding:10px;">
+                <span>
+                    <span class="oe_instance_expires"></span>
+                    <span class="oe_instance_register">
+                        <t t-if="has_mail and email_verify">
+                            <t t-if="diffDays == 30">
+                                <t t-set="delay">1 month</t>
+                            </t>
+                            <t t-if="diffDays != 30">
+                                <t t-set="delay"><t t-esc="diffDays"/> days</t>
+                            </t>
+                            <t t-if="diffDays &gt; 0">
+                                <t t-if="dbexpiration_reason == 'demo'">
+                                    This demo store will expire in <span t-esc="delay"/>.
+                                </t>
+                                <t t-if="dbexpiration_reason != 'demo'">
+                                    This store will expire in <span t-esc="delay"/>.
+                                </t>
+                            </t>
+                            <t t-if="diffDays &lt; 1">
+                                This store has expired. pay now to extend your store validity
+                                <a class="btn btn-primary btn-xs mt8" href="qretail:8069/my/account" target="_blank">Paynow</a>
+                            </t>
+                            <t t-if="warning=='admin'">
+                                <t t-if="dbexpiration_reason == 'trial' or dbexpiration_reason == 'demo' or dbexpiration_reason === false">
+                                    <a class="oe_instance_buy" href="#">Purchase Subscription</a>.
+                                </t>
+                            </t>
+                            <t t-if="warning=='user'">
+                                Log in as an administrator to correct the issue.
+                            </t>
+                        </t>
+                    </span>
+                </span>
+                <span class="oe_instance_register oe_instance_success">
+                    Thank you, your registration was successful! Your database is valid until <span class="valid_date"/>.
+                </span>
+                <span class="oe_instance_register oe_subscription_updated">
+                    Your subscription was updated and is valid until <span class="valid_date"/>.
+                </span>
+                <span class="oe_instance_register oe_instance_error">
+                    Something went wrong while registering your store. You can try again or contact <a href="https://www.ezeselling.com" target="_blank">Ezeselling</a>.
+                </span>
+                <!--form t-if="email_verify" class="form-inline oe_instance_register oe_instance_register_form">
+                    <br/>
+                    <div class="form-group">
+                        <label for="enterprise_code">Subscription Code: </label>
+                        <input type="text" class="form-control" id="enterprise_code"
+                               placeholder="Paste code here"
+                               title="Your subscription code"/>
+                    </div>
+                    <button class="btn btn-sm btn-primary" id="confirm_enterprise_code">Register</button>
+                </form-->
+                <t t-if="!email_verify">
+                    <span class="pull-right" style="font-size:16px;">
+
+                    </span>
+                    <span class="activation_email_panel">
+                        Your Store will expire in <strong><b class="badge">
+                            <span id="demo"/>
+                        </b></strong>, please verify your email address to extend your store validity <strong>
+                        <span class="btn btn-xs btn-danger verify_email_address">Verify Your Email Address</span></strong> <span class="send_email hide ml16"></span></span>
+
+
+                </t>
+            </div>
+        </div>
+    </t>
+
+</templates>

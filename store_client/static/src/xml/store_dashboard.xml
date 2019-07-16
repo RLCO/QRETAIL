@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="StoreDashboardMain">
+        <div class="container-fluid o_pos_dashboard">
+            <div class="o_store_dashboard_user"/>
+            <div class="o_store_info_dashboard"/>
+            <div class="o_store_service_dashboard"/>
+            <div class="o_store_payment_dashboard"/>
+            <!-- <div class="o_pos_dashboard_gage"/>
+            <div class="o_pos_dashboard_payment_method"/>
+            <div class="o_pos_dashboard_top_item"/>
+            <div class="o_pos_dashboard_graph"/> -->
+        </div>
+    </t>
+
+    <t t-name="StoreDashboardUser">
+        <div>
+            <div class="row">
+                <div class="col-md-3 col-sm-6 col-xs-12 o_pos_dashboard_custome_col">
+                    <div class="text-center o_new_customer">
+                        <div class="o_custom_text">
+                            <strong>Customers <span class="fa fa-arrow-circle-o-down"/></strong>
+                        </div>
+                        <div class="o_new_customer_value">
+                            <span class="count"><t t-esc="widget.data.customer"/></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 col-xs-12 o_pos_dashboard_custome_col"> 
+                    <div class="text-center o_repeat_customer">
+                        <div class="o_custom_text">
+                            <strong>Users <span class="fa fa-arrow-circle-o-down"/></strong>
+                        </div>
+                        <div class="o_repeat_customer_value">
+                            <span class="count"><t t-esc="widget.data.users"/></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 col-xs-12 o_pos_dashboard_custome_col">
+                    <div class="text-center o_total_sale">
+                        <div class="o_custom_text">
+                            <strong>Products <span class="fa fa-arrow-circle-o-down"/></strong>
+                        </div>
+                        <div class="o_total_sale_value">
+                            <span class="count"><t t-esc="widget.data.products"/></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 col-xs-12 o_pos_dashboard_custome_col">
+                    <div class="text-center o_total_transaction">
+                        <div class="o_custom_text">
+                            <strong>Total Sales <span class="fa fa-arrow-circle-o-down"/></strong>
+                        </div>
+                        <div class="o_total_transaction_value">
+                            <span class="count"><t t-esc="widget.data.total_sales"/></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+
+    <t t-name="StoreInfoDashboard">
+        <div>
+            <div class="row">
+                <div class="col-md-12 col-sm-6 col-xs-12 o_pos_dashboard_store_col"> 
+                    <h2 class="ml8"><span>Store Details</span>  <a t-attf-href="http://#{widget.data.name}.ezeselling.com" style="width:30%;" class="ml16 label label-warning pull-right">View Store</a> <span style="width:30%;" class="label label-default pull-right ml16">To Renew</span><span data-db="oyacharge" data-target=".o_database_backup" data-toggle="modal" class="label label-primary o_database_action btn-link pull-right ml16" style="cursor:pointer"><i class="fa fa-floppy-o fa-fw"></i> Backup</span></h2>
+                </div>
+                <table class="ml16 table table-bordered">
+                    <thead>
+                        <tr style="font-size: medium; background:#73D0BD;color:white">
+                            <th>Store Name</th>
+                            <th>Expiry Date</th>
+                            <th>Expiry Period</th>
+                            <th>Business Name</th>
+                            <th>Start Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th><span t-esc="widget.data.name"/></th>
+                            <th><span t-esc="widget.data.exp_date"/></th>
+                            <th><span t-esc="widget.data.exp_period"/></th>
+                            <th><span t-esc="widget.data.partner_name or 'Name not found'"/></th>
+                            <th><span t-esc="widget.data.start_date"/></th>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+          <div class="modal fade o_database_backup" role="dialog">
+               <div class="modal-dialog">
+                   <div class="modal-content">
+                       <div class="modal-header">
+                           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&amp;times;</span></button>
+                           <h4 class="modal-title">Backup Database</h4>
+                       </div>
+                       <form id="form_backup_db" role="form" action="/web/database/backup" method="post">
+                           <div class="modal-body">
+                               <div class="form-group">
+                                   <label for="name" class="control-label">Database Name</label>
+                                   <input id="name" type="text" name="name" class="form-control" required="required" t-att-value="widget.data.name" readonly="readonly"/>
+                               </div>
+                               <div class="form-group">
+                                   <label for="backup_format" class="control-label">Backup Format</label>
+                                   <select name="backup_format" id="backup_format" class="form-control" required="required">
+                                       <option value="zip">zip (includes filestore)</option>
+                                       <option value="dump">pg_dump custom format (without filestore)</option>
+                                   </select>
+                               </div>
+                               <input id="master_pwd" type="hidden" name="master_pwd" class="form-control" value="111"/>
+                               <div class="form-group hidden">
+                                   <input id="eze_backup" type="hidden" name="eze_backup" class="form-control" value="1"/>
+                               </div>
+                           </div>
+                           <div class="modal-footer">
+                               <input type="submit" value="Backup" class="btn btn-primary pull-right"/>
+                           </div>
+                       </form>
+                   </div>
+               </div>
+           </div>
+        </div>
+    </t>
+
+
+    <t t-name="StoreServiceDashboard">
+        <div>
+            <div class="row">
+                <div class="col-md-12 col-sm-6 col-xs-12 o_pos_dashboard_store_col"> 
+                    <h2 class="ml8"><span>Store Current Service</span> </h2>
+                </div>
+                <table class="ml16 table table-bordered">
+                    <thead>
+                        <tr style="font-size: medium; background:#B982E8;color:white;">
+                            <th>Description</th>
+                            <th>Quantity</th>
+                            <th>Price Unit</th>
+                            <th>Discount</th>
+                            <th>Subtotal</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-set="total" t-value="0"/>
+                        <t t-foreach="widget.data.store_data" t-as="l">
+                            <tr style="font-size:15px;">
+                                <td><span t-esc="l.name or '-'"/></td>
+                                <td><span t-esc="l.quantity or '-'"/></td>
+                                <td><span t-esc="l.price_unit or '-'"/></td>
+                                <td><span t-esc="l.discount or '-'"/></td>
+                                <td><span t-esc="l.price_subtotal or '-'"/></td>
+
+                            </tr>
+                            <t t-set="total" t-value="total + l.price_subtotal"/>
+                        </t>
+                    </tbody>
+                </table>
+                <div class="col-sm-8"/>
+                <div class="col-md-4 mt4" style="font-size: medium;">
+                    <hr style="border-color:grey"/>
+                    <div>
+                        <strong class="ml64">Total</strong>
+                        <strong class="ml128"> $ <t t-esc="total"/></strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+
+    <t t-name="StorePaymentDashboard">
+        <div>
+            <div class="row">
+                <div class="col-md-12 col-sm-6 col-xs-12 o_pos_dashboard_store_col"> 
+                    <h2 class="ml8"><span>Store Payments</span> </h2>
+                </div>
+                <table class="ml16 table table-bordered">
+                    <thead>
+                        <tr style="font-size: medium; background:#F0AD4E;color:white">
+                            <th>Transaction Reference</th>
+                            <th>Payment Method</th>
+                            <th>Create Date</th>
+                            <th>Status</th>
+                            <th>Acquirer Reference</th>
+                            <th>Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-set="total" t-value="0"/>
+                        <t t-foreach="widget.data.store_data" t-as="l">
+                            <tr style="font-size:15px;">
+                                <td><span t-esc="l.name or '-'"/></td>
+                                <td><span t-esc="l.payment_method or '-'"/></td>
+                                <td><span t-esc="l.create_date or '-'"/></td>
+                                <td><span t-esc="l.state or '-'"/></td>
+                                <td><span t-esc="l.acquirer_reference or '-'"/></td>
+                                <td><span t-esc="l.amount or '-'"/></td>
+
+                            </tr>
+                            <t t-set="total" t-value="total + l.amount"/>
+                        </t>
+                    </tbody>
+                </table>
+                
+                <div class="col-sm-8"/>
+                <div class="col-md-4 mt4 mb64" style="font-size: medium;">
+                    <hr style="border-color:grey"/>
+                    <div>
+                        <strong class="ml64">Total Payments</strong>
+                        <strong class="ml64"> $ <t t-esc="total"/></strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+
+    <t t-extend="DashboardMain">
+        <t t-jquery=".o_web_settings_dashboard_invitations" t-operation="after">
+            <div class="text-center o_web_settings_dashboard_company"></div>
+        </t>
+    </t>
+
+    <t t-name="DashboardCompany">
+        <div class="text-center o_web_settings_dashboard_company mt8">
+            <i class="fa fa-suitcase fa-4x text-muted"></i>
+            <div class="o_web_settings_dashboard_header">
+                <t t-esc="widget.data.company_name"></t>
+            </div>
+            <div>
+                <small class="text-muted text-center o_web_settings_dashboard_compact_subtitle">
+                    Set up your company information
+                </small>
+            </div>
+            <div class="mt16">
+                <a class="btn btn-primary btn-block o_setup_company"><strong>Set Up</strong></a>
+            </div>
+        </div>
+    </t>
+
+
+</templates>

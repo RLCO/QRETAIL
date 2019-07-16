@@ -1,0 +1,214 @@
+/* centered columns styles */
+.row-centered {
+    text-align:center;
+}
+.col-centered {
+    display:inline-block;
+    float:none;
+    /* reset the text-align */
+    text-align:left;
+    /* inline-block space fix */
+    margin-right:-4px;
+}
+
+/* account pricing table */
+#wc-account-table td:nth-last-child(1),
+#wc-account-table th:nth-last-child(1),
+#wc-account-table td:nth-last-child(2),
+#wc-account-table th:nth-last-child(2),
+#wc-account-table td:nth-last-child(3),
+#wc-account-table th:nth-last-child(3), {
+    text-align:right;
+    min-width: 9em;
+    }
+    
+
+#wc-account-table a {
+    text-decoration: none;
+}
+
+/* option pricing table */
+
+#wc-option-table {
+    th:nth-last-child(1),
+    td:nth-last-child(1) {
+       text-align:right;
+    }
+
+    a {
+        text-decoration: none;
+    }
+    
+}
+
+.wc-template-panel-table td:last-child {
+    width: 30%;
+}
+
+
+/* line description */
+.line-description::first-line {
+    font-weight: bold;
+}
+
+.registration .input-group input, .registration button {
+    height: 55px;
+}
+.registration input {
+    font-size: 20px !important;
+}
+.registration button {
+    font-size: 25px;
+    margin-top: 1px;
+}
+
+.error {
+    border-left: 8px solid;
+    border-radius: 0px;
+    width: 592px;
+}
+/*.navbar {
+    background: #337AB7;
+}*/
+.need_payment {
+    -webkit-animation-name: blinker;
+    -webkit-animation-duration: 1s;
+    -webkit-animation-timing-function: linear;
+    -webkit-animation-iteration-count: infinite;
+
+    -moz-animation-name: blinker;
+    -moz-animation-duration: 1s;
+    -moz-animation-timing-function: linear;
+    -moz-animation-iteration-count: infinite;
+
+    animation-name: blinker;
+    animation-duration: 1s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+
+@-moz-keyframes blinker {  
+    0% { opacity: 1.0; }
+    50% { opacity: 0.0; }
+    100% { opacity: 1.0; }
+}
+
+@-webkit-keyframes blinker {  
+    0% { opacity: 1.0; }
+    50% { opacity: 0.0; }
+    100% { opacity: 1.0; }
+}
+
+@keyframes blinker {  
+    0% { opacity: 1.0; }
+    50% { opacity: 0.0; }
+    100% { opacity: 1.0; }
+}
+
+.feature_menus .menu {
+    padding-left: 0;
+}
+.feature_menus ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    background-color: #f1f1f1;
+    height: 100%;
+    overflow: auto;
+}
+.feature_menus li {
+    border-bottom: 1px solid white;
+}
+.feature_menus li.active, .feature_menus li.active a {
+   background-color: #2E63F7;
+   color:white;
+}
+
+.feature_menus li a {
+    display: block;
+    color: #000;
+    padding: 8px 16px;
+    text-decoration: none;
+}
+
+.feature_menus li a:hover:not(.active) {
+    background-color: #555;
+    color: white;
+}
+.feature_menus .main_section {
+    height: 300px;
+    background-image: url("/store_master/static/src/img/back.jpg");
+    background-size: 100%;
+    color: white;
+}
+.feature_menus .main_section h1 {
+    font-weight: bolder;
+    font-size: -webkit-xxx-large;
+}
+.feature_menus .main_text_container {
+    margin-top: -16px;
+}
+.feature_menus .hide_page {
+    display: none;
+}
+/*
+#create-store {
+    background-image: url('/store_master/static/src/img/model-bg.png');
+}
+
+main {
+    background-color: #E9EBEE;
+}
+
+.ezeselling_back {
+    background: rgba(255,255,255,.84);
+    border: 1px dashed rgba(128, 128, 128, 0.37);
+}
+header.header_area, header.header_area.sticky {
+    background: #8398C0;
+}
+header.header_area #top_menu a {
+    color: white;
+}
+
+*/
+.current_plan_panel {
+    border-color: white;
+    border-left-color:#FED926;
+    border-left-width: 5px;
+    background-color: rgba(249, 237, 32, 0.12);
+    padding: 10px;
+}
+.default_plan_panel {
+    border-left-width: 5px;
+    border-color: white;
+    border-left-color: #FF5650;
+    background-color: rgba(255, 86, 80, 0.13);
+    padding: 10px;
+}
+.ribbon-wrapper {
+    display: block;
+    width: 137px;
+    height: 102px;
+    z-index: 5;
+    overflow: hidden;
+    position: absolute;
+    top: 1px;
+    right: 16px;
+}
+.ribbon {
+    font: bold 13px Sans-Serif;
+    color: white;
+    text-align: center;
+    -webkit-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    position: relative;
+    padding: 7px 0;
+    /* top: -8px; */
+    width: 165px;
+    /* height: 83px; */
+    cursor: default;
+
+}

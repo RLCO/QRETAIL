@@ -1,0 +1,371 @@
+<?xml version="1.0"?>
+<odoo>
+
+        <record id="view_sales_order_filter_inherit" model="ir.ui.view">
+            <field name="name">sale.order.search.view.inherit</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_sales_order_filter"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='user_id']" position="after">
+                    <field name="store_id"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="store_subscription_action_sale" model="ir.actions.act_window">
+            <field name="name">Sale Orders</field>
+            <field name="res_model">sale.order</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'search_default_store_id': [active_id], 'default_store_id': active_id}</field>
+            <field name="search_view_id" ref="sale.view_sales_order_filter"/>
+        </record>
+
+         <record id="subscription_code_view_form" model="ir.ui.view">
+            <field name="name">subscription.code.form</field>
+            <field name="model">subscription.code</field>
+            <field name="arch" type="xml">
+                <form string="Subscription Code Generate">
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only"/>
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <field name="code"/>
+                            <field name="store_id"/>
+                            <field name="start_date"/>
+                            <field name="end_date"/>
+                            <field name="is_active"/>
+                        </group>
+                    </sheet>
+                     <footer>
+                        <button name="confirm_code" type="object" string="Confirm" class="btn-primary"/>
+                        <button string="Cancel" class="btn-default" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <!-- <record id="view_store_filter" model="ir.ui.view">
+            <field name="name">store.filter</field>
+            <field name="model">store.database.list</field>
+            <field name="arch" type="xml">
+                <search string="Search store">
+                    <field name="name"/>
+                    <field name="service_id"/>
+                    <field name="is_expired"/>
+                    <field name="manager_id"/>
+                    <field name="state"/>
+                    <filter string="Expired Store" name="expired" domain="[('is_expired', '=', True)]"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Manager" context="{'group_by': 'manager_id'}"/>
+                        <filter string="Store Category" context="{'group_by':'category_id'}"/>
+                        <filter string="Status" context="{'group_by':'state'}"/>
+                        <filter string="Start Month" domain="[]" context="{'group_by':'start_date'}"/>
+                        <filter string="End Month" domain="[]" context="{'group_by':'exp_date'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+ -->
+        <record id="view_store_filter" model="ir.ui.view">
+            <field name="name">store.filter.search.lead</field>
+            <field name="model">store.database.list</field>
+            <field name="arch" type="xml">
+                <search string="Search Store">
+                    <field name="name"/>
+                    <field name="plan_id"/>
+                    <field name="is_expired"/>
+                    <field name="manager_id"/>
+                    <field name="state"/>
+                    <separator />
+                    <filter string="Expired Store" name="expired" domain="[('is_expired', '=', True)]"/>
+                    <separator />
+                    <group expand="0" string="Group By">
+                        <filter string="Manager" name="manager" context="{'group_by': 'manager_id'}"/>
+                        <filter string="Status" name="status" context="{'group_by':'state'}"/>
+                        <filter string="Start Month" name="start_month" domain="[]" context="{'group_by':'start_date'}"/>
+                        <filter string="End Month" name="end_month" domain="[]" context="{'group_by':'exp_date'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+
+        <record id="client_info_view_form" model="ir.ui.view">
+            <field name="model">store.database.list</field>
+            <field name="arch" type="xml">
+                <form string="Seller Information">
+                    
+                    <header>
+                        <button name='generate_sub_code' type="object" string="Generate Subscription Code"/>
+                        <button name='upgrade_database' type="object" string="Upgrade client database"/>
+                        <field name="state"  widget="statusbar" clickable="True"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button class="oe_stat_button o_open_subscription" name="open_website_url"
+                                type="object" icon="fa-globe" string="View Store Contract"/>
+                            <button class="oe_stat_button" string="Invoices"
+                                icon="fa-book"
+                                name="action_subscription_invoice"
+                                type="object"/>
+                            <button class="oe_stat_button" string="Orders"
+                                icon="fa-book"
+                                name="%(store_subscription_action_sale)d"
+                                type="action"/>
+                        </div>
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only"/>
+                            <h1>
+                                <field name="reference"/>
+                                
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="db_name"/>
+                                <field name="total_sales" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="last_update"/>
+                                <field name="database_size"/>
+                                <field name="access_url"/>
+                                <field name="start_date"/>
+                                <field name="exp_period"/>
+                                <field name="expire_reason"/>
+                                <field name="is_expired"/>
+                            </group>
+                            <group>
+                                <field name="template_id"/>
+                                <field name="plan_id"/>
+                                <field name="partner_id"/>
+                                <field name="manager_id"/>
+                                <field name="exp_date"/>
+                                <field name="currency_id"/>
+                                <field name="company_id"/>
+                            </group>
+                        </group>
+                        <field name='note' placeholder="Internal Note ......."/>
+                        <notebook>
+                            <page string="Services" id="lines">
+                                <div>
+                                <field name="subscription_line_ids">
+                                    <tree editable="bottom">
+                                        <field name="product_id"/>
+                                        <field name="name"/>
+                                        <field name="quantity"/>
+                                        <field name="uom_id"/>
+                                        <field name="price_unit"/>
+                                        <field name="discount"/>
+                                        <field name="price_subtotal"/>
+                                    </tree>
+                                </field>
+                                <group class="oe_subtotal_footer oe_right">
+                                    <field name="recurring_total" class="oe_subtotal_footer_separator"
+                                        widget="monetary" options="{'currency_field': 'currency_id'}"
+                                        modifiers="{'readonly': true}"
+                                    />
+                                </group>
+                            </div>
+                            </page>
+                            <page string="Client DB Configuration">
+                                <group>
+                                    <field name="client_db_action"/>
+                                    <field name="ondelete_removedb"/>
+                                </group>
+                                <group>
+                                    <field name="max_user"/>
+                                    <field name="update_addons_list"/>
+                                    <field name="update_addons"/>
+                                    <field name="install_addons"/>
+                                    <field name="uninstall_addons"/>
+                                    <field name="access_owner_add"/>
+                                    <field name="access_remove"/>
+                                    <field name="show_addons"/>
+                                </group>
+                                <group string="Config Parameters">
+                                    <field name="param_ids" nolabel="1">
+                                        <tree editable="bottom">
+                                            <field name="key"/>
+                                            <field name="value"/>
+                                            <field name="hidden"/>
+                                        </tree>
+                                    </field>
+                                </group>
+                            </page>
+                            <page string="Payments">
+                                <field name="payment_tx_ids">
+                                    <tree>
+                                        <field name="reference"/>
+                                        <field name="acquirer_id"/>
+                                        <field name="partner_id"/>
+                                        <field name="create_date" string="Transaction Date"/>
+                                        <field name="state"/>
+                                        <field name="amount"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Subscription Code">
+                                <group>
+                                    <field name="client_id"/>
+                                    <field name="db_uuid"/>
+                                </group>
+                                <group string="Subscription Generate">
+                                    <field name="subscription_code_ids" nolabel="1">
+                                        <tree>
+                                            <field name="name"/>
+                                            <field name="code"/>
+                                            <field name="start_date"/>
+                                            <field name="end_date"/>
+                                            <field name="is_active"/>
+                                        </tree>
+                                    </field>
+                                </group>
+                            </page>
+                            <page string="Terms &amp; Conditions">
+                                <field name="description"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="client_info_view_tree" model="ir.ui.view">
+            <field name="name">client.info.tree</field>
+            <field name="model">store.database.list</field>
+            <field name="arch" type="xml">
+                <tree string="Client Database">
+                    <field name="name"/>
+                    <field name="db_name"/>
+                    <field name="is_template_db"/>
+                    <field name="partner_id"/>
+                    <field name="max_user"/>
+                    <field name="last_update"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="store_template_view_form" model="ir.ui.view">
+            <field name="name">store.template.form</field>
+            <field name="model">store.template</field>
+            <field name="arch" type="xml">
+                <form string="Store Template">
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only"/>
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <field name="exp_period"/>
+                            <field name="plan_id"/>
+                            <field name="manager_id"/>
+                            <field name="allow_online"/>
+                            <field name="currency_id"/>
+                        </group>
+                        <notebook>
+                            <page string="Subscription Line">
+                                <field name="subscription_line_ids">
+                                    <tree editable="bottom">
+                                        <field name="product_id"/>
+                                        <field name="name"/>
+                                        <field name="quantity"/>
+                                        <field name="uom_id"/>
+                                        <field name="price_unit"/>
+                                        <field name="discount"/>
+                                        <field name="price_subtotal"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Extra Options">
+                                <field name="subscription_line_option_ids">
+                                    <tree editable="bottom">
+                                        <field name="product_id"/>
+                                        <field name="name"/>
+                                        <field name="portal_access"/>
+                                        <field name="uom_id"/>
+                                        <field name="price_unit"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="store_template_view_tree" model="ir.ui.view">
+            <field name="name">store.template.tree</field>
+            <field name="model">store.template</field>
+            <field name="arch" type="xml">
+                <tree string="Store Template">
+                    <field name="name"/>
+                    <field name="exp_period"/>
+                    <field name="manager_id"/>
+                    <field name="allow_online"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="store_template_action" model="ir.actions.act_window">
+            <field name="name">Store Template</field>
+            <field name="res_model">store.template</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="store_template_view_tree"/>
+        </record>
+
+
+
+        <record id="action_client_database_info_action" model="ir.actions.act_window">
+            <field name="name">Seller Store</field>
+            <field name="res_model">store.database.list</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="client_info_view_tree"/>
+        </record>
+
+
+        <menuitem name="Saas Portal" id="menu_client_root" sequence="1" web_icon="store_master,static/description/icon.png"/>
+        <menuitem id="menu_client_main" parent="menu_client_root" name="Saas Portal" sequence="1"/>
+        <menuitem id="menu_client_database" action="action_client_database_info_action" parent="menu_client_main" name="Cient Database" sequence="3"/>
+        <menuitem id="menu_store_template" action="store_template_action" parent="menu_client_main" name="Store Template" sequence="9"/>
+
+        <record id="sale_order_view_form_store" model="ir.ui.view">
+            <field name="name">sale.order.form.inherit</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[hasclass('oe_title')]" position="after">
+                    <div role="alert" class="alert alert-info" attrs="{'invisible': [('store_id', '=', False)]}">
+                        This order is linked to a store.
+                    </div>
+                </xpath>
+                <xpath expr="//field[@name='team_id']" position="after">
+                    <field name="store_id" attrs="{'invisible': [('store_id', '=', False)]}"/>
+                </xpath>
+
+                <field name="payment_term_id" position="after">
+                    <field name="merchant_id"/>
+                </field>
+            </field>
+        </record>
+
+       <report 
+            id="store_report"
+            model="store.database.list"
+            string="Contract"
+            report_type="qweb-pdf"
+            name="store_master.report_store"
+            file="store_master.report_store"
+        />
+
+</odoo>

@@ -1,0 +1,175 @@
+<?xml version="1.0"?>
+<odoo>
+
+    <record id="sales_team.crm_team_salesteams_act" model="ir.actions.act_window">
+        <field name="domain">[('is_service', '=', True)]</field>
+    </record>
+
+    <record id="action_all_store" model="ir.actions.act_window">
+        <field name="name">Stores</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">store.database.list</field>
+        <field name="src_model">crm.team</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">kanban,form,tree</field>
+        <field name="context">{'search_default_service_id': [active_id], 'default_service_id': active_id}</field>
+        <field name="domain">[]</field>
+        <field name="search_view_id" eval="view_store_filter"/>
+    </record>
+
+    <record id="action_renew_store" model="ir.actions.act_window">
+        <field name="name">Stores In Renew</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">store.database.list</field>
+        <field name="src_model">crm.team</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">kanban,form,tree</field>
+        <field name="context">{'search_default_service_id': [active_id], 'default_service_id': active_id}</field>
+        <field name="domain">[('state', '=', 'renew')]</field>
+    </record>
+
+    <record id="action_inprogress_store" model="ir.actions.act_window">
+        <field name="name">Stores In Progress</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">store.database.list</field>
+        <field name="src_model">crm.team</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">kanban,form,tree</field>
+        <field name="context">{'search_default_service_id': [active_id], 'default_service_id': active_id}</field>
+        <field name="domain">[('state', '=', 'in_progress')]</field>
+    </record>
+
+    <record id="action_closed_store" model="ir.actions.act_window">
+        <field name="name">Stores Closed</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">store.database.list</field>
+        <field name="src_model">crm.team</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">kanban,form,tree</field>
+        <field name="context">{'search_default_service_id': [active_id], 'default_service_id': active_id}</field>
+        <field name="domain">[('state', '=', 'close')]</field>
+    </record>
+
+    <record id="crm_team_salesteams_view_kanban" model="ir.ui.view"> 
+        <field name="name">crm.team.kanban</field>
+        <field name="model">crm.team</field>
+        <field name="inherit_id" ref="sales_team.crm_team_salesteams_view_kanban"/>
+        <field name="arch" type="xml">
+            <data>
+                <xpath expr="//templates" position="before">
+                    <field name="is_service"/>
+                </xpath>
+                <xpath expr="//div[@name='to_replace_in_sale_crm']" position="replace">
+                    <t t-if="record.is_service.raw_value">
+                        <div class="col-xs-6 o_kanban_primary_left" name="to_replace_in_sale_crm">
+                            <button type="object" class="btn btn-primary" name="action_primary_channel_button"><field name="dashboard_button_name"/></button>
+                            <br/>
+                            <t t-if="record.store_renew_count.raw_value">
+                                <button type="action" class="btn btn-info mt8 need_payment" name="%(action_renew_store)d">To Renew</button>
+                            </t>
+                        </div>
+                    </t>
+                    <t t-if="!record.is_service.raw_value">
+                        <div class="col-xs-6 o_kanban_primary_left" name="to_replace_in_sale_crm">
+                            <button type="object" class="btn btn-primary" name="action_primary_channel_button"><field name="dashboard_button_name"/></button>
+                        </div>
+                    </t>
+                </xpath>
+                <xpath expr="//t[@name='second_options']" position="after">
+                    <t t-if="record.is_service.raw_value">
+                        <div class="row">
+                            <div class="col-xs-8">
+                                <a name="%(action_all_store)d" type="action" context="{'search_default_draft': True, 'search_default_sent': True}">
+                                    <field name="store_all_count"/> All Store
+                                </a>
+                            </div>
+                            <div class="col-xs-4 text-right">
+                                $5000
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-8">
+                                <a name="%(action_renew_store)d" type="action">
+                                    <field name="store_renew_count"/> Store In Renew
+                                </a>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-8">
+                                <a name="%(action_inprogress_store)d" type="action">
+                                    <field name="store_inprogress_count"/> Store In Progress
+                                </a>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-8">
+                                <a name="%(action_closed_store)d" type="action">
+                                    <field name="store_expire_count"/> Closed Store
+                                </a>
+                            </div>
+                        </div>
+                        <hr/>
+                    </t>
+                </xpath>
+            </data>
+        </field>
+    </record>
+
+    <record id="crm_team_view_form" model="ir.ui.view">
+        <field name="name">crm.team.form</field>
+        <field name="model">crm.team</field>
+        <field name="inherit_id" ref="sales_team.crm_team_view_form"/>
+        <field name="arch" type="xml">
+            <data>
+               <xpath expr="//form//sheet" position="before">
+                    <header>
+                        <button name="update_db" type="object" string="Update Store" class="o_heilight"/>
+                    </header>
+                </xpath>
+                <xpath expr="//page[@name='dashboard']" position="after">
+                    <page string="Service">
+                        <group>
+                            <field name='demo_database'/>
+                            <field name="is_service"/>
+                            <field name="service_type"/>
+                        </group>
+                        <group string="Modules">
+                            <field name="module_ids">
+                                <tree editable="bottom">
+                                    <field name="module_id"/>
+                                    <field name="description"/>
+                                    <field name="state"/>
+                                    <field name="to_install"/>
+                                </tree>
+                            </field>
+                        </group>
+                        <group string="Client Store Restriction">
+                            <field name="display_modules_ids" readonly="False" widget="many2many_tags"/>
+                            <field name="user_limit"/>
+                        </group>
+                    </page>
+                </xpath>
+            </data>
+        </field>
+    </record>
+
+    <record id="crm_team_salesteams_act_store" model="ir.actions.act_window">
+        <field name="name">Dashboard</field>
+        <field name="res_model">crm.team</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">kanban,form</field>
+        <field name="context">{}</field>
+        <field name="domain">[('is_service', '=', True)]</field>
+        <field name="view_id" ref="sales_team.crm_team_salesteams_search"/>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Click here to define a new sales channel.
+            </p><p>
+                Use sales channels to organize your sales departments. 
+                Each channel will work with a separate pipeline.
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="menu_dashboard" action="crm_team_salesteams_act_store" parent="menu_client_main" sequence="1"/>
+</odoo>

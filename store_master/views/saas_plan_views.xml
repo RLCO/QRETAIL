@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+     <record id="saas_plan_view_tree" model="ir.ui.view">
+        <field name="name">saas.plan.tree</field>
+        <field name="model">saas.plan</field>
+        <field name="arch" type="xml">
+            <tree string="Plan">
+                <field name="name"/>
+                <field name="template_db"/>
+                <field name="max_users"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="saas_plan_view_form" model="ir.ui.view">
+        <field name="name">saas.plan.view.form</field>
+        <field name="model">saas.plan</field>
+        <field name="arch" type="xml">
+            <form string="Plan">
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <field name="template_db"/>
+                        <field name="max_users"/>
+                        <field name="demo"/>
+                        <field name="total_storage_limit"/>
+                        <field name="block_on_expiration"/>
+                        <field name="block_on_storage_exceed"/>
+                    </group>
+                    <group string="Modules">
+                        <field name="module_ids">
+                            <tree editable="bottom">
+                                <field name="module_id"/>
+                                <field name="description"/>
+                                <field name="state"/>
+                                <field name="to_install"/>
+                            </tree>
+                        </field>
+                    </group>
+                    <group string="Client Store Restriction">
+                        <field name="display_modules_ids" readonly="False" widget="many2many_tags"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_plan" model="ir.actions.act_window">
+        <field name="name">Plan</field>
+        <field name="res_model">saas.plan</field>
+        <field name="view_type">form</field>
+        <field name="domain">[]</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_saas_plan" action="action_plan" parent="menu_client_main" sequence="1"/>
+
+</odoo>

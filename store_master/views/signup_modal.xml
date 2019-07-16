@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="singup_modal">
+        <div id="singup_modal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content" style="border:none !important; border-radius:0; box-shadow:none !important; -webkit-box-shadow: none !important; background-color: transparent !important;width: 71%;
+    margin-left: 19%;">
+                    <div class="modal-header" style="color:white">
+                        <h2 style="color: white;">Start your free 14-day trial of Qretail</h2>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span style="font-size: 40px;color: white;">&amp;times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="/client/database/create" id="store-create-form" name="contact_form" class="default-form">
+                            <div class="form-group field-login">
+                                <input type="text" placeholder="Email Address" name="email"  id="email" class="form-control" required="required" autofocus="autofocus" autocapitalize="off"/>
+                            </div>
+                            <div class="form-group field-login">
+                                <input type="password" placeholder="Password" name="password"  id="password" class="form-control" required="required" autofocus="autofocus" autocapitalize="off"/>
+                            </div>
+                            <div class="form-group field-login">
+                                <input type="text" placeholder="Your Store Name" name="store_name"  id="store_name" class="form-control" required="required" autofocus="autofocus" autocapitalize="off"/>
+                            </div>
+
+                            <div class="form-group field-login">
+                                <select name="plan_id" class="form-control">
+                                    <option value="lite">Lite</option>
+                                    <option value="pro">Pro</option>
+                                    <option value="enterprise">Enterprise</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group field-login">
+                                <input type="text" placeholder="Phone no" name="phone"  id="phone" class="form-control" required="required" autofocus="autofocus" autocapitalize="off"/>
+                            </div>
+                            <div>
+                               <label><input type="checkbox" checked="checked" name="free_trail"> <span>Free Trial</span></input></label>
+                            </div>
+                            <div>
+                               <label><input type="checkbox" name="terms"> <span>Accept Terms &amp; Conditions</span></input></label>
+                            </div>
+                            <input type="hidden" name="exp_period" value="free_trail"/>
+                            <div class="form-group">
+                                <button type="submit" class="o_store_singup btn btn-primary btn-lg pull-right">Create Your Store</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+    <template id="website.homepage">
+        <t t-call="website.layout">
+            <t t-set="pageName" t-value="'homepage'"/>
+            <div id="wrap" class="oe_structure sss oe_empty">
+                <section id="fame-slider">
+                    <div class="awesome-carousel"> 
+                        <div id="awesome_car2" class="carousel slide carousel-fade slider2-carosual s_carousel s_carousel_default carousel" data-ride="carousel">
+                          <!-- Indicators -->
+                            <ol class="carousel-indicators">
+                                <li data-target="#awesome_car2" data-slide-to="0" class="active"></li>
+                                <li data-target="#awesome_car2" data-slide-to="1"></li>
+                                <li data-target="#awesome_car2" data-slide-to="2"></li>
+                            </ol>
+                            <!-- Wrapper for slides -->
+                            <div class="carousel-inner" role="listbox">
+                                <div class="item active carousel-item oe_custom_bg oe_img_bg bg-img zoom-img" style="background-image: url(/artesia/static/src/images/slider/boxed/3.jpg);" alt="Slider One">
+                                    <div class="overlay"></div>
+                                    <div class="carousel-caption">
+                                        <div class="fame-cap-text col-xs-12"> 
+                                            <h1 class="slider2-h1"><span class="fame-text">WELCOME</span> TO ARTESIA</h1>
+                                            <h4 class="slider2-h4">Create just what you need for your Perfect Website.<br/> Choose from a wide range of Elements and simply put them on your own ARTESIA.</h4>
+                                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#singup_modal" data-backdrop="static" data-keyboard="false">
+                                                Create Store
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- slider item --> 
+                                <div class="item carousel-item oe_custom_bg oe_img_bg bg-img zoom-img" style="background-image: url(/artesia/static/src/images/slider/boxed/2.jpg);" alt="Slider One">
+                                    <div class="overlay"></div>
+                                    <div class="carousel-caption">
+                                        <div class="fame-cap-text"> 
+                                            <h1 class="slider2-h1">BEAUTIFULLY <span class="fame-text">FLEXIBLE</span></h1>
+                                            <h4 class="slider2-h4">Looks beautiful and ultra-sharp on Retina Screen Displays. <br/> Powerful Layout with Responsive functionality that can be adapted to any screen size.</h4>
+                                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#singup_modal" data-backdrop="static" data-keyboard="false">
+                                                Create Store
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div><!-- End slider item -->
+                                <!-- slider item -->
+                                <div class="item carousel-item oe_custom_bg oe_img_bg bg-img zoom-img" style="background-image: url(/artesia/static/src/images/slider/boxed/3.jpg);" alt="Slider One">
+                                    <div class="overlay"></div>
+                                    <div class="carousel-caption">
+                                        <div class="fame-cap-text"> 
+                                            <h1 class="slider2-h1">GREAT <span class="fame-text">PERFORMANCE</span></h1>
+                                            <h4 class="slider2-h4">You'll be surprised to see the Final Results of your Creation and would crave for more.</h4>
+                                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#singup_modal" data-backdrop="static" data-keyboard="false">
+                                                Create Store
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="padding-bottom-50" id="service-second">
+                <div class="container text-center">
+                    <div class="heading-block service-third-lg center">
+                        <h2>Our Services</h2>
+                        <span class="divcenter">Initiative end hunger gender rights local storytelling; advocate, altruism impact catalyst.</span>
+                    </div>
+                    <div class="row service-box-wrap">
+                        <div class="col-md-3 col-sm-6 service-box-col">
+                            <figure>
+                                <div class="service-image">
+                                    <i class="fa fa-laptop"></i>
+                                </div>
+                            </figure>
+                            <h4 class="service-title title-bordered">Web Design</h4>
+                            <p class="service-content">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia.</p>
+                        </div>
+                        <div class="col-md-3 col-sm-6 service-box-col">
+                            <figure>
+                                <div class="service-image">
+                                    <i class="fa fa-mobile"></i>
+                                </div>
+                            </figure>
+                            <h4 class="service-title title-bordered">App Development</h4>
+                            <p class="service-content">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia.</p>
+                        </div>
+                        <div class="col-md-3 col-sm-6 service-box-col">
+                            <figure>
+                                <div class="service-image">
+                                    <i class="fa fa-asterisk"></i>
+                                </div>
+                            </figure>
+                            <h4 class="service-title title-bordered">Digital Marketing</h4>
+                            <p class="service-content">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia.</p>
+                        </div>
+                        <div class="col-md-3 col-sm-6 service-box-col">
+                            <figure>
+                                <div class="service-image">
+                                    <i class="fa fa-star-o"></i>
+                                </div>
+                            </figure>
+                            <h4 class="service-title title-bordered">Branding</h4>
+                            <p class="service-content">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="customize-second">
+                <div class="about-section">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-12 col-xs-12">
+                                <div class="about-content">
+                                    <div class="text">WELCOME TO</div>
+                                    <div class="title">OUR ARTESIA</div>
+                                    <h4>Democracy inspire breakthroughs, Rosa Parks; inspiration raise awareness natural resources. Governance impact; transformative donation philanthropy, respect reproductive.</h4>
+                                    <p>Democracy inspire breakthroughs, Rosa Parks; inspiration raise awareness natural resources. Governance impact; transformative donation philanthropy, respect reproductive.</p>
+                                    <div class="about-btn">
+                                        <a href="#" class="btn-style-one">Contact Us</a>
+                                        <a href="#" class="btn-style-two">Explore More</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-12 col-xs-12">
+                                <div class="video-section">
+                                    <div class="fluid-image">
+                                        <img src="/artesia/static/src/images/services/video.jpg" alt=""/>
+                                    <a class="html5lightbox" title="Assurance Video Gallery" href="#"><span class="fa fa-play" aria-hidden="true"></span></a></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="our_works">
+                <div class="container">
+                    <div class="heading-block center">
+                        <h2>Our Latest Works</h2>
+                        <span class="divcenter">Philanthropy convener livelihoods, initiative end hunger.</span>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="portfolioFilter clearfix" id="filters">
+                                <a href="#portfolioFilter" data-filter="*" class="current">All Categories</a>
+                                <a href="#portfolioFilter" data-filter=".webTemplates">Web Templates</a>
+                                <a href="#portfolioFilter" data-filter=".drawings">Drawings</a>
+                                <a href="#portfolioFilter" data-filter=".ui">UI Elements</a>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="portfolioContainer" id="portfolio">
+                                <div class="row">
+                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6 padding_image webTemplates ui objects">
+                                        <img src="/artesia/static/src/images/portfolio/full/1.jpg" class="portfolio-image" alt="image"/>
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6 padding_image drawings places">
+                                        <img src="/artesia/static/src/images/portfolio/full/2.jpg" class="portfolio-image" alt="image"/>
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6 padding_image webTemplates ui food">
+                                        <img src="/artesia/static/src/images/portfolio/full/3.jpg" class="portfolio-image" alt="image"/>
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6 padding_image drawings">
+                                        <img src="/artesia/static/src/images/portfolio/full/4.jpg" class="portfolio-image" alt="image"/>
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6 padding_image webTemplates">
+                                        <img src="/artesia/static/src/images/portfolio/full/5.jpg" class="portfolio-image" alt="image"/>
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6 padding_image ui">
+                                        <img src="/artesia/static/src/images/portfolio/full/6.jpg" class="portfolio-image" alt="image"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="portfolio-section nobottommargin nobottomborder">
+                    <div class="container clearfix">
+                    </div>
+                </div>
+            </section>
+            <section id="counter-fourth">
+                <div class="fact-counter sec-pad centered">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-3 col-sm-6 col-xs-12 counter-colmun">
+                                <div class="single-item">
+                                    <article class="column wow fadeIn" data-wow-duration="0ms">
+                                        <div class="count-outer"><span id="number1" class="count-text number">110</span></div>
+                                        <div class="text">Happy Customers</div>
+                                    </article>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-6 col-xs-12 counter-colmun">
+                                <div class="single-item">
+                                    <article class="column wow fadeIn" data-wow-duration="0ms">
+                                        <div class="count-outer"><span id="number2" class="count-text number">75</span></div>
+                                        <div class="text">Delivered Projects</div>
+                                    </article>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-6 col-xs-12 counter-colmun">
+                                <div class="single-item">
+                                    <article class="column wow fadeIn" data-wow-duration="0ms">
+                                        <div class="count-outer"><span id="number3" class="count-text number">135</span></div>
+                                        <div class="text">Consultations Done</div>
+                                    </article>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-6 col-xs-12 counter-colmun">
+                                <div class="single-item">
+                                    <article class="column wow fadeIn" data-wow-duration="0ms">
+                                        <div class="count-outer"><span id="number4" class="count-text number">120</span></div>
+                                        <div class="text">No. of Clients</div>
+                                    </article>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="our-team-second">
+                <div class="team-area" id="team">
+                    <div class="container">
+                        <div class="heading-block price-first-lg center">
+                            <h2>Meet Our Team</h2>
+                            <span class="divcenter">Lorem ipsum dolor is sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</span>
+                        </div>
+                            <div class="team-carousel-active owl-carousel">
+                            <div class="row">
+                                <div class="col-md-4 col-sm-4">
+                                    <div class="single-team">
+                                        <div class="team-img">
+                                            <a href="#"><img src="/artesia/static/src/images/team/team-2/1.jpg" alt="" /></a>
+                                        </div>
+                                        <div class="team-hover">
+                                            <div class="team-text">
+                                                <h4>jonathon doe</h4>
+                                                <span>Web Development</span>
+                                                <p>The spectacle before was indeed sublime.Then came the night of the first falling star.She stared through.</p>
+                                            </div>
+                                            <div class="team-icon">
+                                                <a href="#"><i class="fa fa-facebook"></i></a>
+                                                <a href="#"><i class="fa fa-twitter"></i></a>
+                                                <a href="#"><i class="fa fa-globe"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-4">
+                                    <div class="single-team">
+                                        <div class="team-img">
+                                            <a href="#"><img src="/artesia/static/src/images/team/team-2/2.jpg" alt="" /></a>
+                                        </div>
+                                        <div class="team-hover">
+                                            <div class="team-text">
+                                                <h4>sarah samanta</h4>
+                                                <span>Web Development</span>
+                                                <p>The spectacle before was indeed sublime.Then came the night of the first falling star.She stared through.</p>
+                                            </div>
+                                            <div class="team-icon">
+                                                <a href="#"><i class="fa fa-facebook"></i></a>
+                                                <a href="#"><i class="fa fa-twitter"></i></a>
+                                                <a href="#"><i class="fa fa-globe"></i></a>
+                                            </div>                          
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-4">
+                                    <div class="single-team">
+                                        <div class="team-img">
+                                            <a href="#"><img src="/artesia/static/src/images/team/team-2/1.jpg" alt="" /></a>
+                                        </div>
+                                        <div class="team-hover">
+                                            <div class="team-text">
+                                                <h4>John Maklane</h4>
+                                                <span>Web Development</span>
+                                                <p>The spectacle before was indeed sublime.Then came the night of the first falling star.She stared through.</p>
+                                            </div>
+                                            <div class="team-icon">
+                                                <a href="#"><i class="fa fa-facebook"></i></a>
+                                                <a href="#"><i class="fa fa-twitter"></i></a>
+                                                <a href="#"><i class="fa fa-globe"></i></a>
+                                            </div>                          
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+                <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#singup_modal" data-backdrop="static" data-keyboard="false">
+                Launch demo modal
+                </button> -->
+                <t t-call="store_master.singup_modal"/>
+            </div>
+        </t>
+    </template>
+</odoo>
